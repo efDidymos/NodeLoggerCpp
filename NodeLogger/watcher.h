@@ -13,12 +13,16 @@
 class watcher
 {
 public:
-    watcher();
+    watcher(char * pathToFile);
     watcher(const watcher& orig);
     virtual ~watcher();
-
+    
+    void readJson();
+    
 private:
     QFile *cFile;
+    QString target;
+    std::vector<QString> logFiles;
 };
 
 #endif	/* WATCHER_H */

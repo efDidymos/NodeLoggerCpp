@@ -20,16 +20,13 @@ int main(int argc, char *argv[])
 	try
 	{
 		if (QFile::exists(argv[1]))
-		{
-			qDebug() << "File exist";
-//			watcher *myWatcher = new watcher(argv[1]);
-		}
+			watcher *myWatcher = new watcher(argv[1]);
 		else
 			throw std::invalid_argument("Config file does not exist!");
 	}
 	catch (std::exception& e)
 	{
-		qDebug() << e.what();
+		qCritical() << "Exception caught:" << e.what();
 	}
 
 	// create and show your widgets here

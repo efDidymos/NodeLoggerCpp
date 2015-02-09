@@ -1,5 +1,4 @@
 {
-	"version": "1.0",
 	"target": "127.0.0.1",
 	"files": [
 		"testFile1.log",
