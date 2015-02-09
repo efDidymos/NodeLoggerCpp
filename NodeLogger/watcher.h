@@ -9,6 +9,7 @@
 #define	WATCHER_H
 
 #include <QFile>
+#include <QVector>
 
 class watcher
 {
@@ -22,7 +23,7 @@ public:
 private:
     QFile *cFile;
     QString target;
-    std::vector<QString> logFiles;
+    QVector<QString> logFiles;
 };
 
 #endif	/* WATCHER_H */
