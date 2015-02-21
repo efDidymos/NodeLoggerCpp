@@ -12,12 +12,12 @@
 #include <QJsonArray>
 #include <QJsonParseError>
 #include <QDebug>
-#include <iostream>
 
 watcher::watcher(char * pathToFile)
 {
 	cFile = new QFile(QString::fromUtf8(pathToFile));
 	readJson();
+	watch();
 }
 
 watcher::watcher(const watcher& orig)
@@ -27,6 +27,7 @@ watcher::watcher(const watcher& orig)
 watcher::~watcher()
 {
 	delete cFile;
+	delete w;
 }
 
 /*
@@ -85,4 +86,16 @@ void watcher::readJson()
 	{
 		qCritical() << "Exception caught: " << e.what();
 	}
+}
+
+void watcher::watch()
+{
+	w = new QFileSystemWatcher(logFiles);
+	
+	QObject::connect(w, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+}
+
+void watcher::showModified(const QString& fileName)
+{
+	qDebug() << "The " << fileName << " changed.";
 }

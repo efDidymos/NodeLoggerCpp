@@ -8,22 +8,31 @@
 #ifndef WATCHER_H
 #define	WATCHER_H
 
+#include <QWidget>
 #include <QFile>
-#include <QVector>
+#include <QStringList>
+#include <QFileSystemWatcher>
 
-class watcher
+class watcher : public QWidget
 {
+    Q_OBJECT
+
 public:
     watcher(char * pathToFile);
     watcher(const watcher& orig);
     virtual ~watcher();
-    
+
     void readJson();
-    
+    void watch();
+
+public slots:
+    void showModified(const QString& fileName);
+
 private:
     QFile *cFile;
     QString target;
-    QVector<QString> logFiles;
+    QStringList logFiles;
+    QFileSystemWatcher *w;
 };
 
 #endif	/* WATCHER_H */
