@@ -27,7 +27,7 @@ watcher::watcher(const watcher& orig)
 watcher::~watcher()
 {
 	delete cFile;
-	delete w;
+	delete watchList;
 }
 
 /*
@@ -97,9 +97,9 @@ void watcher::readJson()
 
 void watcher::watch()
 {
-	w = new QFileSystemWatcher(logFiles);
+	watchList = new QFileSystemWatcher(logFiles);
 
-	QObject::connect(w, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 }
 
 void watcher::showModified(const QString& fileName)

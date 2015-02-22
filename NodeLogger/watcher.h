@@ -32,7 +32,7 @@ private:
     QFile *cFile;
     QString target;
     QStringList logFiles;
-    QFileSystemWatcher *w;
+    QFileSystemWatcher *watchList;
 };
 
 #endif	/* WATCHER_H */
