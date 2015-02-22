@@ -71,16 +71,23 @@ void watcher::readJson()
 			QJsonObject obj = doc.object();
 
 			target = obj["target"].toString();
-
+			qDebug() << "Target address is: " << target;
+			
 			QJsonArray files = obj["files"].toArray();
 
 			foreach(QJsonValue file, files)
-			logFiles.push_back(file.toString());
-			
-			qDebug() << "Configuration file leaded.";
+				if (QFile::exists(file.toString()))
+				{
+					logFiles.push_back(file.toString());
+					qDebug() << "File " << file.toString() << " added to watchlist.";
+				}
+				else
+					qDebug() << "File " << file.toString() << " does not exist!";
+				
+			qDebug() << "Configuration file leaded succesfully.";
 		}
 		else
-			throw std::invalid_argument("Can not read the config file !");
+			throw std::invalid_argument("Can not read the config file!");
 	}
 	catch (std::exception& e)
 	{
@@ -91,7 +98,7 @@ void watcher::readJson()
 void watcher::watch()
 {
 	w = new QFileSystemWatcher(logFiles);
-	
+
 	QObject::connect(w, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 }
 
