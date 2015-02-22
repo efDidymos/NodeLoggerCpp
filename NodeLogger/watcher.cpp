@@ -17,7 +17,6 @@ watcher::watcher(char * pathToFile)
 {
 	cFile = new QFile(QString::fromUtf8(pathToFile));
 	readJson();
-	watch();
 }
 
 watcher::watcher(const watcher& orig)
@@ -85,6 +84,8 @@ void watcher::readJson()
 					qDebug() << "File " << file.toString() << " does not exist!";
 				
 			qDebug() << "Configuration file leaded succesfully.";
+			
+			watch();
 		}
 		else
 			throw std::invalid_argument("Can not read the config file!");
