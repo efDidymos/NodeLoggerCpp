@@ -15,8 +15,7 @@
 
 watcher::watcher(char * pathToFile)
 {
-	cFile = new QFile(QString::fromUtf8(pathToFile));
-	readJson();
+	readJson(pathToFile);
 }
 
 watcher::watcher(const watcher& orig)
@@ -25,35 +24,14 @@ watcher::watcher(const watcher& orig)
 
 watcher::~watcher()
 {
-	delete cFile;
 	delete watchList;
 }
 
-/*
- * Preparation function for reading file
-//	QFileInfo info1(str);
-//	qDebug() << info1.size();
-
-	pathToFile = QString::fromUtf8(pathToFile);
-	
-	cFile = new QFile(QString::fromUtf8(pathToFile));
-
-	if (!cFile->open(QIODevice::ReadOnly | QIODevice::Text))
-		return;
-	
-	while (!cFile->atEnd())
-	{
-		QByteArray line = cFile->readLine();
-		cFile->r
-//		process_line(line);
-		qDebug() << line;
-	}
- */
-
-void watcher::readJson()
+void watcher::readJson(char * pathToFile)
 {
 	QString data;
 	QJsonParseError jsonEror;
+	QFile *cFile = new QFile(QString::fromUtf8(pathToFile));
 
 	try
 	{
@@ -71,20 +49,34 @@ void watcher::readJson()
 
 			target = obj["target"].toString();
 			qDebug() << "Target address is: " << target;
-			
+
 			QJsonArray files = obj["files"].toArray();
 
 			foreach(QJsonValue file, files)
-				if (QFile::exists(file.toString()))
+			if (QFile::exists(file.toString()))
+			{
+				QFile f(file.toString());
+
+				int pos = 0;
+
+				if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+					qDebug() << "The file " << file.toString() << " can not be read.";
+				else
 				{
-					logFiles.push_back(file.toString());
+					pos = f.size();
+
+					map.insert(file.toString(), pos);
+
+					f.close();
+					
 					qDebug() << "File " << file.toString() << " added to watchlist.";
 				}
-				else
-					qDebug() << "File " << file.toString() << " does not exist!";
-				
+			}
+			else
+				qDebug() << "File " << file.toString() << " does not exist!";
+
 			qDebug() << "Configuration file leaded succesfully.";
-			
+
 			watch();
 		}
 		else
@@ -98,7 +90,7 @@ void watcher::readJson()
 
 void watcher::watch()
 {
-	watchList = new QFileSystemWatcher(logFiles);
+	watchList = new QFileSystemWatcher(map.keys());
 
 	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 }
@@ -106,4 +98,20 @@ void watcher::watch()
 void watcher::showModified(const QString& fileName)
 {
 	qDebug() << "The " << fileName << " changed.";
+
+	QFile f(fileName);
+
+	if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+		qDebug() << "The file " << fileName << " can not be read.";
+	else
+	{
+		f.seek(map.value(fileName));
+
+		while (!f.atEnd())
+			qDebug() << f.readLine();
+
+		map.insert(fileName, f.pos());
+
+		f.close();
+	}
 }

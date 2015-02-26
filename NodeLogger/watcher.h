@@ -10,7 +10,7 @@
 
 #include <QWidget>
 #include <QFile>
-#include <QStringList>
+#include <QMap>
 #include <QFileSystemWatcher>
 
 class watcher : public QWidget
@@ -22,16 +22,15 @@ public:
     watcher(const watcher& orig);
     virtual ~watcher();
 
-    void readJson();
+    void readJson(char * pathToFile);
     void watch();
 
 public slots:
     void showModified(const QString& fileName);
 
 private:
-    QFile *cFile;
     QString target;
-    QStringList logFiles;
+    QMap<QString, int> map;
     QFileSystemWatcher *watchList;
 };
 
