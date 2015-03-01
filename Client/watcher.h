@@ -12,6 +12,13 @@
 #include <QFile>
 #include <QMap>
 #include <QFileSystemWatcher>
+#include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QNetworkSession>
+
+struct server {
+    QString host;
+    int port;
+};
 
 class watcher : public QObject
 {
@@ -27,12 +34,22 @@ public:
 
 public slots:
     void showModified(const QString& fileName);
+//    void readFortune();
+//    void displayError(QAbstractSocket::SocketError socketError);
 
 private:
     QString idWatcher;
-    QString target;
+    
+    server targetServer;
+    
     QMap<QString, int> map;
     QFileSystemWatcher *watchList;
+    
+    QTcpSocket *tcpSocket;
+    QString currentFortune;
+    quint16 blockSize;
+    
+    QNetworkSession *networkSession;
 };
 
 #endif	/* WATCHER_H */

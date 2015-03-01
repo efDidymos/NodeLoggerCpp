@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=CLang-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/CLang-Linux-x86
-CND_ARTIFACT_NAME_Debug=NodeLoggerCppClient
-CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-Linux-x86/NodeLoggerCppClient
+CND_ARTIFACT_NAME_Debug=Client
+CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-Linux-x86/Client
 CND_PACKAGE_DIR_Debug=dist/Debug/CLang-Linux-x86/package
-CND_PACKAGE_NAME_Debug=NodeLoggerCppClient.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/CLang-Linux-x86/package/NodeLoggerCppClient.tar
+CND_PACKAGE_NAME_Debug=Client.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/CLang-Linux-x86/package/Client.tar
 # Release configuration
 CND_PLATFORM_Release=CLang-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/CLang-Linux-x86
-CND_ARTIFACT_NAME_Release=NodeLoggerCppClient
-CND_ARTIFACT_PATH_Release=dist/Release/CLang-Linux-x86/NodeLoggerCppClient
+CND_ARTIFACT_NAME_Release=Client
+CND_ARTIFACT_PATH_Release=dist/Release/CLang-Linux-x86/Client
 CND_PACKAGE_DIR_Release=dist/Release/CLang-Linux-x86/package
-CND_PACKAGE_NAME_Release=NodeLoggerCppClient.tar
-CND_PACKAGE_PATH_Release=dist/Release/CLang-Linux-x86/package/NodeLoggerCppClient.tar
+CND_PACKAGE_NAME_Release=Client.tar
+CND_PACKAGE_PATH_Release=dist/Release/CLang-Linux-x86/package/Client.tar
 #
 # include compiler specific variables
 #

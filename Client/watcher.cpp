@@ -13,7 +13,7 @@
 #include <QJsonParseError>
 #include <QDebug>
 
-watcher::watcher(char * pathToFile)
+watcher::watcher(char * pathToFile) : networkSession(0)
 {
 	readJson(pathToFile);
 }
@@ -50,8 +50,11 @@ void watcher::readJson(char * pathToFile)
 			idWatcher = obj["id"].toString();
 			qDebug() << "This watcher is: " << idWatcher;
 			
-			target = obj["target"].toString();
-			qDebug() << "Target address is: " << target;
+			QJsonObject sobj = obj["target"].toObject();
+			targetServer.host = sobj["host"].toString();
+			targetServer.port = sobj["port"].toString().toInt();
+			
+			qDebug() << "Target address is: " << targetServer.host << ":" << targetServer.port;
 
 			QJsonArray files = obj["files"].toArray();
 
@@ -96,6 +99,11 @@ void watcher::watch()
 	watchList = new QFileSystemWatcher(map.keys());
 
 	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+	
+//	tcpSocket = QTcpSocket(this);
+	
+//	QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readFortune()));
+//	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
 void watcher::showModified(const QString& fileName)
@@ -118,3 +126,33 @@ void watcher::showModified(const QString& fileName)
 		f.close();
 	}
 }
+
+/*
+void watcher::readFortune()
+ {
+     QDataStream in(tcpSocket);
+     in.setVersion(QDataStream::Qt_4_0);
+
+     if (blockSize == 0) {
+         if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
+             return;
+
+         in >> blockSize;
+     }
+
+     if (tcpSocket->bytesAvailable() < blockSize)
+         return;
+
+     QString nextFortune;
+     in >> nextFortune;
+
+     if (nextFortune == currentFortune) {
+         QTimer::singleShot(0, this, SLOT(requestNewFortune()));
+         return;
+     }
+
+     currentFortune = nextFortune;
+     statusLabel->setText(currentFortune);
+     getFortuneButton->setEnabled(true);
+ }
+*/
