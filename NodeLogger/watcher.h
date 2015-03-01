@@ -8,12 +8,12 @@
 #ifndef WATCHER_H
 #define	WATCHER_H
 
-#include <QWidget>
+#include <QObject>
 #include <QFile>
 #include <QMap>
 #include <QFileSystemWatcher>
 
-class watcher : public QWidget
+class watcher : public QObject
 {
     Q_OBJECT
 
@@ -29,6 +29,7 @@ public slots:
     void showModified(const QString& fileName);
 
 private:
+    QString idWatcher;
     QString target;
     QMap<QString, int> map;
     QFileSystemWatcher *watchList;

@@ -47,6 +47,9 @@ void watcher::readJson(char * pathToFile)
 
 			QJsonObject obj = doc.object();
 
+			idWatcher = obj["id"].toString();
+			qDebug() << "This watcher is: " << idWatcher;
+			
 			target = obj["target"].toString();
 			qDebug() << "Target address is: " << target;
 

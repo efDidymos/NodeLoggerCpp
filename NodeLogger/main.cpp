@@ -17,19 +17,18 @@ int main(int argc, char *argv[])
 
 	QApplication app(argc, argv);
 
-	try
+	if (QFile::exists(argv[1]))
 	{
-		if (QFile::exists(argv[1]))
-			watcher *myWatcher = new watcher(argv[1]);
-		else
-			throw std::invalid_argument("Config file does not exist!");
+		watcher * myWatcher = new watcher(argv[1]);
+
+		// create and show your widgets here
+
+		return app.exec();
 	}
-	catch (std::exception& e)
+	else
 	{
-		qCritical() << "Exception caught:" << e.what();
+		qCritical() << "Argument error: config file does not exist!";
+		qDebug() << "Usage:" << argv[0] << "<config file>";
+		return 0;
 	}
-
-	// create and show your widgets here
-
-	return app.exec();
 }
