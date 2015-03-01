@@ -11,6 +11,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonParseError>
+#include <QTimer>
 #include <QDebug>
 
 watcher::watcher(char * pathToFile) : networkSession(0)
@@ -49,11 +50,11 @@ void watcher::readJson(char * pathToFile)
 
 			idWatcher = obj["id"].toString();
 			qDebug() << "This watcher is: " << idWatcher;
-			
+
 			QJsonObject sobj = obj["target"].toObject();
 			targetServer.host = sobj["host"].toString();
 			targetServer.port = sobj["port"].toString().toInt();
-			
+
 			qDebug() << "Target address is: " << targetServer.host << ":" << targetServer.port;
 
 			QJsonArray files = obj["files"].toArray();
@@ -74,7 +75,7 @@ void watcher::readJson(char * pathToFile)
 					map.insert(file.toString(), pos);
 
 					f.close();
-					
+
 					qDebug() << "File " << file.toString() << " added to watchlist.";
 				}
 			}
@@ -99,11 +100,21 @@ void watcher::watch()
 	watchList = new QFileSystemWatcher(map.keys());
 
 	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+
+	tcpSocket = new QTcpSocket(this);
 	
-//	tcpSocket = QTcpSocket(this);
-	
-//	QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readFortune()));
-//	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+	conectServer();
+
+	QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readFortune()));
+	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+}
+
+void watcher::conectServer()
+{
+	blockSize = 0;
+	tcpSocket->abort();
+
+	tcpSocket->connectToHost(targetServer.host, targetServer.port);
 }
 
 void watcher::showModified(const QString& fileName)
@@ -127,32 +138,53 @@ void watcher::showModified(const QString& fileName)
 	}
 }
 
-/*
 void watcher::readFortune()
- {
-     QDataStream in(tcpSocket);
-     in.setVersion(QDataStream::Qt_4_0);
+{
+	QDataStream in(tcpSocket);
+	in.setVersion(QDataStream::Qt_5_0);
 
-     if (blockSize == 0) {
-         if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
-             return;
+	if (blockSize == 0)
+	{
+		if (tcpSocket->bytesAvailable() < (int) sizeof (quint16))
+			return;
 
-         in >> blockSize;
-     }
+		in >> blockSize;
+	}
 
-     if (tcpSocket->bytesAvailable() < blockSize)
-         return;
+	if (tcpSocket->bytesAvailable() < blockSize)
+		return;
+	
+	QString nextFortune;
+	in >> nextFortune;
 
-     QString nextFortune;
-     in >> nextFortune;
+	if (nextFortune == currentFortune)
+	{
+		QTimer::singleShot(0, this, SLOT(conectServer()));
+		return;
+	}
 
-     if (nextFortune == currentFortune) {
-         QTimer::singleShot(0, this, SLOT(requestNewFortune()));
-         return;
-     }
+	currentFortune = nextFortune;
+	
+	qDebug() << "precitane: " << currentFortune;
+}
 
-     currentFortune = nextFortune;
-     statusLabel->setText(currentFortune);
-     getFortuneButton->setEnabled(true);
- }
-*/
+void watcher::displayError(QAbstractSocket::SocketError socketError)
+{
+	switch (socketError)
+	{
+		case QAbstractSocket::RemoteHostClosedError:
+			break;
+
+		case QAbstractSocket::HostNotFoundError:
+			qDebug() << "The host was not found. Please check the host name and port settings.";
+			break;
+
+		case QAbstractSocket::ConnectionRefusedError:
+			qDebug() << "The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct.";
+			break;
+
+		default:
+			qDebug() << "The following error occurred:" << tcpSocket->errorString();
+	}
+
+}

@@ -12,12 +12,12 @@
 #include <QFile>
 #include <QMap>
 #include <QFileSystemWatcher>
-#include <QtNetwork/QTcpSocket>
-#include <QtNetwork/QNetworkSession>
+#include <QTcpSocket>
+#include <QNetworkSession>
 
 struct server {
     QString host;
-    int port;
+    quint16 port;
 };
 
 class watcher : public QObject
@@ -31,11 +31,13 @@ public:
 
     void readJson(char * pathToFile);
     void watch();
+    
+    void conectServer();
 
 public slots:
     void showModified(const QString& fileName);
-//    void readFortune();
-//    void displayError(QAbstractSocket::SocketError socketError);
+    void readFortune();
+    void displayError(QAbstractSocket::SocketError socketError);
 
 private:
     QString idWatcher;
