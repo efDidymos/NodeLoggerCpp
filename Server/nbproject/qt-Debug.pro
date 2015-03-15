@@ -2,14 +2,14 @@
 # Use project properties -> Build -> Qt -> Expert -> Custom Definitions.
 TEMPLATE = app
 DESTDIR = dist/Debug/CLang-Linux-x86
-TARGET = NodeLogger
+TARGET = Server
 VERSION = 1.0.0
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += debug 
 PKGCONFIG +=
-QT = core gui widgets
-SOURCES += main.cpp watcher.cpp
-HEADERS += watcher.h
+QT = core gui widgets network
+SOURCES += main.cpp server.cpp
+HEADERS += server.h
 FORMS +=
 RESOURCES +=
 TRANSLATIONS +=

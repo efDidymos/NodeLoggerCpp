@@ -1,8 +1,0 @@
-{
-	"id": "1-nlog",
-	"target": "127.0.0.1",
-	"files": [
-		"testFile1.log",
-		"testFile2.log"
-	]
-}

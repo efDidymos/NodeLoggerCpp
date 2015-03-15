@@ -8,7 +8,9 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "watcher.h"
+#include "server.h"
+
+//#include "watcher.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,18 +19,20 @@ int main(int argc, char *argv[])
 
 	QApplication app(argc, argv);
 
-	if (QFile::exists(argv[1]))
-	{
-		watcher * myWatcher = new watcher(argv[1]);
+//	if (QFile::exists(argv[1]))
+//	{
+//		watcher * myWatcher = new watcher(argv[1]);
+		
+		server *myServer = new server();
 
 		// create and show your widgets here
 
 		return app.exec();
-	}
-	else
-	{
-		qCritical() << "Argument error: config file does not exist!";
-		qDebug() << "Usage:" << argv[0] << "<config file>";
-		return 0;
-	}
+//	}
+//	else
+//	{
+//		qCritical() << "Argument error: config file does not exist!";
+//		qDebug() << "Usage:" << argv[0] << "<config file>";
+//		return 0;
+//	}
 }

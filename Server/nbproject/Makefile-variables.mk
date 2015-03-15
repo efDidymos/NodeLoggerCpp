@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=CLang-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/CLang-Linux-x86
-CND_ARTIFACT_NAME_Debug=NodeLogger
-CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-Linux-x86/NodeLogger
+CND_ARTIFACT_NAME_Debug=Server
+CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-Linux-x86/Server
 CND_PACKAGE_DIR_Debug=dist/Debug/CLang-Linux-x86/package
-CND_PACKAGE_NAME_Debug=NodeLogger.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/CLang-Linux-x86/package/NodeLogger.tar
+CND_PACKAGE_NAME_Debug=Server.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/CLang-Linux-x86/package/Server.tar
 # Release configuration
 CND_PLATFORM_Release=CLang-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/CLang-Linux-x86
-CND_ARTIFACT_NAME_Release=NodeLogger
-CND_ARTIFACT_PATH_Release=dist/Release/CLang-Linux-x86/NodeLogger
+CND_ARTIFACT_NAME_Release=Server
+CND_ARTIFACT_PATH_Release=dist/Release/CLang-Linux-x86/Server
 CND_PACKAGE_DIR_Release=dist/Release/CLang-Linux-x86/package
-CND_PACKAGE_NAME_Release=NodeLogger.tar
-CND_PACKAGE_PATH_Release=dist/Release/CLang-Linux-x86/package/NodeLogger.tar
+CND_PACKAGE_NAME_Release=Server.tar
+CND_PACKAGE_PATH_Release=dist/Release/CLang-Linux-x86/package/Server.tar
 #
 # include compiler specific variables
 #
