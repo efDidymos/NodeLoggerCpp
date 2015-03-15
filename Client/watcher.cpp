@@ -14,7 +14,7 @@
 #include <QTimer>
 #include <QDebug>
 
-watcher::watcher(char * pathToFile) : networkSession(0)
+watcher::watcher(char * pathToFile)
 {
 	readJson(pathToFile);
 }
@@ -101,12 +101,13 @@ void watcher::watch()
 
 	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 
+	networkSession = NULL;
 	tcpSocket = new QTcpSocket(this);
-	
-	conectServer();
 
 	QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readFortune()));
 	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+	
+	conectServer();
 }
 
 void watcher::conectServer()
