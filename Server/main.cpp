@@ -6,9 +6,9 @@
  */
 
 #include <QApplication>
-#include <QDebug>
+//#include <QDebug>
 
-#include "server.h"
+#include "Context.h"
 
 //#include "watcher.h"
 
@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
 //	{
 //		watcher * myWatcher = new watcher(argv[1]);
 		
-		server *myServer = new server();
+//		Server *myServer = new Server();
+		Context myServer;
 
 		// create and show your widgets here
 
