@@ -6,11 +6,7 @@
  */
 
 #include <QApplication>
-//#include <QDebug>
-
 #include "Context.h"
-
-//#include "watcher.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,21 +15,21 @@ int main(int argc, char *argv[])
 
 	QApplication app(argc, argv);
 
-//	if (QFile::exists(argv[1]))
-//	{
-//		watcher * myWatcher = new watcher(argv[1]);
-		
-//		Server *myServer = new Server();
-		Context myServer;
+	//	if (QFile::exists(argv[1]))
+	//	{
+	//		watcher * myWatcher = new watcher(argv[1]);
 
-		// create and show your widgets here
+	//		Server *myServer = new Server();
+	Context myServer;
 
-		return app.exec();
-//	}
-//	else
-//	{
-//		qCritical() << "Argument error: config file does not exist!";
-//		qDebug() << "Usage:" << argv[0] << "<config file>";
-//		return 0;
-//	}
+	// create and show your widgets here
+
+	return app.exec();
+	//	}
+	//	else
+	//	{
+	//		qCritical() << "Argument error: config file does not exist!";
+	//		qDebug() << "Usage:" << argv[0] << "<config file>";
+	//		return 0;
+	//	}
 }

@@ -104,23 +104,36 @@ void watcher::watch()
 	networkSession = NULL;
 	tcpSocket = new QTcpSocket(this);
 
-	QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readFortune()));
 	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-	
-	conectServer();
 }
 
-void watcher::conectServer()
+void watcher::sendToServer(const QString& text)
 {
-	blockSize = 0;
-	tcpSocket->abort();
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_4);
+	out << (quint16) 0;
+//	out << idWatcher;
+//	out << (quint8) 0;
+	out << text;
+	out.device()->seek(0);
+	out << (quint16) (block.size() - sizeof (quint16));
+
+#ifdef DEBUG
+	qDebug() << "Odosielam na server blok o dlzke: ";
+	qDebug() << ((quint16) (block.size() - sizeof (quint16)));
+#endif
 
 	tcpSocket->connectToHost(targetServer.host, targetServer.port);
+	tcpSocket->write(block);
+	tcpSocket->disconnectFromHost();
 }
 
 void watcher::showModified(const QString& fileName)
 {
+#ifdef DEBUG
 	qDebug() << "The " << fileName << " changed.";
+#endif
 
 	QFile f(fileName);
 
@@ -130,43 +143,21 @@ void watcher::showModified(const QString& fileName)
 	{
 		f.seek(map.value(fileName));
 
+		QString added;
 		while (!f.atEnd())
-			qDebug() << f.readLine();
+			added.append(f.readLine());
+
+#ifdef DEBUG
+		qDebug() << "Precitane data:";
+		qDebug() << added;
+#endif
 
 		map.insert(fileName, f.pos());
 
 		f.close();
+
+		sendToServer(added);
 	}
-}
-
-void watcher::readFortune()
-{
-	QDataStream in(tcpSocket);
-	in.setVersion(QDataStream::Qt_5_0);
-
-	if (blockSize == 0)
-	{
-		if (tcpSocket->bytesAvailable() < (int) sizeof (quint16))
-			return;
-
-		in >> blockSize;
-	}
-
-	if (tcpSocket->bytesAvailable() < blockSize)
-		return;
-	
-	QString nextFortune;
-	in >> nextFortune;
-
-	if (nextFortune == currentFortune)
-	{
-		QTimer::singleShot(0, this, SLOT(conectServer()));
-		return;
-	}
-
-	currentFortune = nextFortune;
-	
-	qDebug() << "precitane: " << currentFortune;
 }
 
 void watcher::displayError(QAbstractSocket::SocketError socketError)

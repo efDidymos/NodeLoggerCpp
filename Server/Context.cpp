@@ -15,14 +15,12 @@ Context::Context(QObject *parent)
 	{
 		qDebug() << "Threaded Fortune Server";
 		qDebug() << "Unable to start the server: " << server.errorString();
-		
-//		close();
 		return;
 	}
 
 	QString ipAddress;
 	QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-	
+
 	// use the first non-localhost IPv4 address
 	for (int i = 0; i < ipAddressesList.size(); ++i)
 	{
@@ -33,12 +31,12 @@ Context::Context(QObject *parent)
 			break;
 		}
 	}
-	
+
 	// if we did not find one, use IPv4 localhost
 	if (ipAddress.isEmpty())
 		ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
-	
-	qDebug() << "The server is running on\n\nIP: " << ipAddress ;
+
+	qDebug() << "The server is running on\n\nIP: " << ipAddress;
 	qDebug() << "\nport: " << server.serverPort();
 	qDebug() << "\n\nRun the Fortune Client example now.";
 }

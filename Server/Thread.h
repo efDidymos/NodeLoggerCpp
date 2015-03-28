@@ -16,18 +16,23 @@ class Thread : public QThread
     Q_OBJECT
 
 public:
-    Thread(int socketDescriptor, const QString &fortune, QObject *parent);
+    Thread(int socketDescriptor, QObject *parent);
     Thread(const Thread& orig);
     virtual ~Thread();
-
-    void run() Q_DECL_OVERRIDE;
 
 signals:
     void error(QTcpSocket::SocketError socketError);
 
+public slots:
+    void read();
+
 private:
     int socketDescriptor;
-    QString text;
+    QTcpSocket *tcpSocket;
+    quint16 blockSize;
+    
+    QString currentText;
+    QString logger;
 };
 
 #endif	/* THREAD_H */

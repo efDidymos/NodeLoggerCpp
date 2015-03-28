@@ -32,11 +32,10 @@ public:
     void readJson(char * pathToFile);
     void watch();
     
-    void conectServer();
+    void sendToServer(const QString& text);
 
 public slots:
     void showModified(const QString& fileName);
-    void readFortune();
     void displayError(QAbstractSocket::SocketError socketError);
 
 private:

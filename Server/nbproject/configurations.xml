@@ -46,6 +46,9 @@
       <compileType>
         <ccTool>
           <standard>8</standard>
+          <preprocessorList>
+            <Elem>DEBUG</Elem>
+          </preprocessorList>
         </ccTool>
       </compileType>
       <item path="Context.cpp" ex="false" tool="1" flavor2="0">
@@ -71,7 +74,7 @@
       </toolsSet>
       <qt>
         <buildMode>1</buildMode>
-        <modules>core gui widgets</modules>
+        <modules>core gui widgets network</modules>
       </qt>
       <compileType>
         <cTool>
@@ -79,6 +82,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <standard>8</standard>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

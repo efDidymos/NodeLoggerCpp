@@ -6,12 +6,36 @@
  */
 
 #include "Thread.h"
+#include <QObject>
+#include <QTimer>
 
-Thread::Thread(int socketDescriptor, const QString &fortune, QObject *parent) :
-QThread(parent),
+Thread::Thread(int socketDescriptor, QObject *parent) :
 socketDescriptor(socketDescriptor),
-text(fortune)
+QThread(parent)
 {
+#ifdef DEBUG
+	qDebug() << "Konstruktor thread";
+#endif
+
+	tcpSocket = new QTcpSocket(this);
+
+	if (!tcpSocket->setSocketDescriptor(socketDescriptor))
+	{
+		emit error(tcpSocket->error());
+#ifdef DEBUG
+		qDebug() << "Server ma problemy";
+#endif
+		return;
+	}
+	else
+	{
+#ifdef DEBUG
+		qDebug() << "Server bezi";
+#endif
+
+		blockSize = 0;
+		QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(read()));
+	}
 }
 
 Thread::Thread(const Thread& orig)
@@ -22,25 +46,43 @@ Thread::~Thread()
 {
 }
 
-void Thread::run()
+void Thread::read()
 {
-	QTcpSocket tcpSocket;
+#ifdef DEBUG
+	qDebug() << "Prijala sa sprava";
+#endif
 
-	if (!tcpSocket.setSocketDescriptor(socketDescriptor))
+	QDataStream in(tcpSocket);
+	in.setVersion(QDataStream::Qt_5_0);
+
+	if (blockSize == 0)
 	{
-		emit error(tcpSocket.error());
+		if (tcpSocket->bytesAvailable() < (int) sizeof (quint16))
+			return;
+
+		in >> blockSize;
+	}
+
+	if (tcpSocket->bytesAvailable() < blockSize)
+		return;
+
+//	in >> logger;
+	
+	QString nextText;	
+	in >> nextText;
+	
+	if (nextText == currentText)
+	{
+		//		QTimer::singleShot(0, this, SLOT(conectServer()));
+#ifdef DEBUG
+		qDebug() << "QTimer::singleShot(0, this, SLOT(conectServer()))";
+#endif
 		return;
 	}
 
-	QByteArray block;
-	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_4_0);
-	out << (quint16) 0;
-	out << text;
-	out.device()->seek(0);
-	out << (quint16) (block.size() - sizeof (quint16));
+	currentText = nextText;
 
-	tcpSocket.write(block);
-	tcpSocket.disconnectFromHost();
-	tcpSocket.waitForDisconnected();
+//	qDebug() << "Od " << logger << " prijaty text:";
+	qDebug() << "Prijaty text:";
+	qDebug() << currentText;
 }

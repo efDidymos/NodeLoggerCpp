@@ -7,7 +7,7 @@ VERSION = 1.0.0
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += release 
 PKGCONFIG +=
-QT = core gui widgets
+QT = core gui widgets network
 SOURCES += Context.cpp Server.cpp Thread.cpp main.cpp
 HEADERS += Context.h Server.h Thread.h
 FORMS +=
@@ -22,3 +22,9 @@ QMAKE_CXX = clang++
 DEFINES += 
 INCLUDEPATH += 
 LIBS += 
+equals(QT_MAJOR_VERSION, 4) {
+QMAKE_CXXFLAGS += -std=c++11
+}
+equals(QT_MAJOR_VERSION, 5) {
+CONFIG += c++11
+}

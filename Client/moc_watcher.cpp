@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_watcher_t {
-    QByteArrayData data[8];
-    char stringdata[97];
+    QByteArrayData data[7];
+    char stringdata[85];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,15 +33,14 @@ QT_MOC_LITERAL(0, 0, 7), // "watcher"
 QT_MOC_LITERAL(1, 8, 12), // "showModified"
 QT_MOC_LITERAL(2, 21, 0), // ""
 QT_MOC_LITERAL(3, 22, 8), // "fileName"
-QT_MOC_LITERAL(4, 31, 11), // "readFortune"
-QT_MOC_LITERAL(5, 43, 12), // "displayError"
-QT_MOC_LITERAL(6, 56, 28), // "QAbstractSocket::SocketError"
-QT_MOC_LITERAL(7, 85, 11) // "socketError"
+QT_MOC_LITERAL(4, 31, 12), // "displayError"
+QT_MOC_LITERAL(5, 44, 28), // "QAbstractSocket::SocketError"
+QT_MOC_LITERAL(6, 73, 11) // "socketError"
 
     },
     "watcher\0showModified\0\0fileName\0"
-    "readFortune\0displayError\0"
-    "QAbstractSocket::SocketError\0socketError"
+    "displayError\0QAbstractSocket::SocketError\0"
+    "socketError"
 };
 #undef QT_MOC_LITERAL
 
@@ -51,7 +50,7 @@ static const uint qt_meta_data_watcher[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -59,14 +58,12 @@ static const uint qt_meta_data_watcher[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x0a /* Public */,
-       4,    0,   32,    2, 0x0a /* Public */,
-       5,    1,   33,    2, 0x0a /* Public */,
+       1,    1,   24,    2, 0x0a /* Public */,
+       4,    1,   27,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void, 0x80000000 | 5,    6,
 
        0        // eod
 };
@@ -77,14 +74,13 @@ void watcher::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         watcher *_t = static_cast<watcher *>(_o);
         switch (_id) {
         case 0: _t->showModified((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 1: _t->readFortune(); break;
-        case 2: _t->displayError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 1: _t->displayError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 2:
+        case 1:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -120,13 +116,13 @@ int watcher::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 2;
     }
     return _id;
 }

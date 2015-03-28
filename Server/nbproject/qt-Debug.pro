@@ -19,7 +19,7 @@ RCC_DIR =
 UI_DIR = 
 QMAKE_CC = clang
 QMAKE_CXX = clang++
-DEFINES += 
+DEFINES += DEBUG 
 INCLUDEPATH += 
 LIBS += 
 equals(QT_MAJOR_VERSION, 4) {
