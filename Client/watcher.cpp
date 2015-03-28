@@ -109,13 +109,19 @@ void watcher::watch()
 
 void watcher::sendToServer(const QString& text)
 {
+	struct Packet 
+	{
+		QString id;
+		QString data;
+	};
+	
+	Packet packet = {idWatcher, text};
+	
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_4);
 	out << (quint16) 0;
-//	out << idWatcher;
-//	out << (quint8) 0;
-	out << text;
+	out << text << idWatcher;
 	out.device()->seek(0);
 	out << (quint16) (block.size() - sizeof (quint16));
 

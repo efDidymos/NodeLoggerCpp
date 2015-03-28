@@ -65,11 +65,9 @@ void Thread::read()
 
 	if (tcpSocket->bytesAvailable() < blockSize)
 		return;
-
-//	in >> logger;
 	
 	QString nextText;	
-	in >> nextText;
+	in >> nextText >> logger;
 	
 	if (nextText == currentText)
 	{
@@ -82,7 +80,6 @@ void Thread::read()
 
 	currentText = nextText;
 
-//	qDebug() << "Od " << logger << " prijaty text:";
-	qDebug() << "Prijaty text:";
+	qDebug() << "Od " << logger << " prijaty text:";
 	qDebug() << currentText;
 }
