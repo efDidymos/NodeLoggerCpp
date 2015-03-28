@@ -32,7 +32,7 @@ public:
     void readJson(char * pathToFile);
     void watch();
     
-    void sendToServer(const QString& text);
+    void sendToServer(const QString& fileName, const QString& text);
 
 public slots:
     void showModified(const QString& fileName);

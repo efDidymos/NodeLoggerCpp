@@ -44,6 +44,9 @@ Thread::Thread(const Thread& orig)
 
 Thread::~Thread()
 {
+#ifdef DEBUG
+	qDebug() << "Destruktor thread";
+#endif
 }
 
 void Thread::read()
@@ -65,10 +68,10 @@ void Thread::read()
 
 	if (tcpSocket->bytesAvailable() < blockSize)
 		return;
-	
-	QString nextText;	
-	in >> nextText >> logger;
-	
+
+	QString nextText, fileName;
+	in >> nextText >> logger >> fileName;
+
 	if (nextText == currentText)
 	{
 		//		QTimer::singleShot(0, this, SLOT(conectServer()));
@@ -80,6 +83,6 @@ void Thread::read()
 
 	currentText = nextText;
 
-	qDebug() << "Od " << logger << " prijaty text:";
+	qDebug() << "Od " << logger << ", v subore " << fileName << " prijaty text:";
 	qDebug() << currentText;
 }

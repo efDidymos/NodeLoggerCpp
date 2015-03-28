@@ -107,7 +107,7 @@ void watcher::watch()
 	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
-void watcher::sendToServer(const QString& text)
+void watcher::sendToServer(const QString& fileName, const QString& text)
 {
 	struct Packet 
 	{
@@ -121,7 +121,7 @@ void watcher::sendToServer(const QString& text)
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_4);
 	out << (quint16) 0;
-	out << text << idWatcher;
+	out << text << idWatcher << fileName;
 	out.device()->seek(0);
 	out << (quint16) (block.size() - sizeof (quint16));
 
@@ -162,7 +162,7 @@ void watcher::showModified(const QString& fileName)
 
 		f.close();
 
-		sendToServer(added);
+		sendToServer(fileName, added);
 	}
 }
 
