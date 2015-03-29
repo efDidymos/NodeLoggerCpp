@@ -72,15 +72,6 @@ void Thread::read()
 	QString nextText, fileName;
 	in >> nextText >> logger >> fileName;
 
-	if (nextText == currentText)
-	{
-		//		QTimer::singleShot(0, this, SLOT(conectServer()));
-#ifdef DEBUG
-		qDebug() << "QTimer::singleShot(0, this, SLOT(conectServer()))";
-#endif
-		return;
-	}
-
 	currentText = nextText;
 
 	qDebug() << "Od " << logger << ", v subore " << fileName << " prijaty text:";
