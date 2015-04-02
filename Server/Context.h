@@ -16,7 +16,6 @@ class Context : public QObject
     Q_OBJECT
     
 public:
-/*    Context(QObject *parent = 0);   */
     Context(const char * pathToFile, QObject *parent = 0);
     Context(const Context& orig);
     virtual ~Context();

@@ -118,7 +118,7 @@ void watcher::watch()
 	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
-void watcher::sendToServer(const QString& fileName, const QString& text)
+void watcher::sendToServer(const QString& fileName, const QString& text) const
 {
 
 	struct Packet
@@ -178,7 +178,7 @@ void watcher::showModified(const QString& fileName)
 	}
 }
 
-void watcher::displayError(QAbstractSocket::SocketError socketError)
+void watcher::displayError(QAbstractSocket::SocketError socketError) const
 {
 	switch (socketError)
 	{

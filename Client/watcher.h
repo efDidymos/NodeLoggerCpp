@@ -31,11 +31,11 @@ public:
     void readJson(const char * pathToFile);
     void watch();
     
-    void sendToServer(const QString& fileName, const QString& text);
+    void sendToServer(const QString& fileName, const QString& text) const;
 
 public slots:
     void showModified(const QString& fileName);
-    void displayError(QAbstractSocket::SocketError socketError);
+    void displayError(QAbstractSocket::SocketError socketError) const;
 
 private:
     QString idWatcher;
