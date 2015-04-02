@@ -2,7 +2,7 @@
 	"id": "1-nlog",
 	"target": {
 			"host": "192.168.1.10",
-			"port": "46856"
+			"port": "4848"
 		},
 	"files": [
 		"testFile1.log",

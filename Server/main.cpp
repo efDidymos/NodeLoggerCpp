@@ -6,6 +6,7 @@
  */
 
 #include <QCoreApplication>
+#include <QFile>
 #include <csignal>
 #include "Context.h"
 
@@ -14,7 +15,7 @@ static void cleanup(int sig)
 #ifdef DEBUG
 	qDebug() << "Caught CTRL+C signal, Bye :)";
 #endif
-	
+
 	if (sig == SIGINT) qApp->quit();
 }
 
@@ -27,18 +28,18 @@ int main(int argc, char *argv[])
 
 	QCoreApplication app(argc, argv);
 
-	//	if (QFile::exists(argv[1]))
-	//	{
-	Context myServer;
+	if (QFile::exists(argv[1]))
+	{
+		Context myServer(argv[1]);
 
-	// create and show your widgets here
+		// create and show your widgets here
 
-	return app.exec();
-	//	}
-	//	else
-	//	{
-	//		qCritical() << "Argument error: config file does not exist!";
-	//		qDebug() << "Usage:" << argv[0] << "<config file>";
-	//		return 0;
-	//	}
+		return app.exec();
+	}
+	else
+	{
+		qCritical() << "Argument error: config file '" <<  argv[1] << "' does not exist!";
+		qDebug() << "Usage:" << argv[0] << "<config file>";
+		return 0;
+	}
 }

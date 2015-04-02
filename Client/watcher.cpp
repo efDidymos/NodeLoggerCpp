@@ -11,7 +11,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonParseError>
-#include <QTimer>
+#include <QFile>
 #include <QDebug>
 
 watcher::watcher(const char * pathToFile)

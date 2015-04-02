@@ -9,7 +9,6 @@
 #define	WATCHER_H
 
 #include <QObject>
-#include <QFile>
 #include <QMap>
 #include <QFileSystemWatcher>
 #include <QTcpSocket>
@@ -47,7 +46,6 @@ private:
     QFileSystemWatcher *watchList;
     
     QTcpSocket *tcpSocket;
-    QString currentFortune;
     quint16 blockSize;
     
     QNetworkSession *networkSession;

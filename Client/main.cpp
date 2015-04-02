@@ -6,7 +6,7 @@
  */
 
 #include <QCoreApplication>
-#include <QDebug>
+#include <QFile>
 #include <csignal>
 #include "watcher.h"
 
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		qCritical() << "Argument error: config file does not exist!";
+		qCritical() << "Argument error: config file '" <<  argv[1] << "' does not exist!";
 		qDebug() << "Usage:" << argv[0] << "<config file>";
 		return 0;
 	}

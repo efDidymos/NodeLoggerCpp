@@ -6,13 +6,19 @@
  */
 
 #include <QtNetwork>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
 #include "Context.h"
 
-Context::Context(QObject *parent)
+Context::Context(const char * pathToFile, QObject *parent)
 {	
-	if (!server.listen())
+	readJson(pathToFile);
+	
+	if (!server.listen(QHostAddress::Any, port))
 	{
-		qDebug() << "Threaded Fortune Server";
+		qDebug() << "Threaded Server";
 		qDebug() << "Unable to start the server: " << server.errorString();
 		return;
 	}
@@ -36,8 +42,8 @@ Context::Context(QObject *parent)
 		ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
 
 	qDebug() << "The server is running on\n\nIP: " << ipAddress;
-	qDebug() << "\nport: " << server.serverPort();
-	qDebug() << "\n\nRun the Fortune Client example now.";
+	qDebug() << "\nport: " << port;
+	qDebug() << "\n\nRun the Client now.";
 }
 
 Context::Context(const Context& orig)
@@ -49,5 +55,39 @@ Context::~Context()
 #ifdef DEBUG
 	qDebug() << "Destructor context";
 #endif
+}
+
+void Context::readJson(const char * pathToFile)
+{
+	QString data;
+	QJsonParseError jsonEror;
+	QFile cFile(QString::fromUtf8(pathToFile));
+	
+	try
+	{
+		if (cFile.open(QIODevice::ReadOnly | QIODevice::Text))
+		{
+			data = cFile.readAll();
+			cFile.close();
+			
+			QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonEror);
+
+			if (jsonEror.error != QJsonParseError::NoError)
+				throw std::invalid_argument(jsonEror.errorString().toUtf8().constData());
+			
+			QJsonObject obj = doc.object();
+			
+			port = obj["port"].toString().toInt();
+			
+			qDebug() << "Configuration file leaded succesfully.";
+		}
+		else
+			throw std::invalid_argument("Can not read the config file!");
+	}
+	catch (std::exception& e)
+	{
+		qCritical() << "Exception caught: " << e.what();
+		qApp->quit();
+	}
 }
 
