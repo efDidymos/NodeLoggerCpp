@@ -25,11 +25,11 @@ class watcher : public QObject
     Q_OBJECT
 
 public:
-    watcher(char * pathToFile);
+    watcher(const char * pathToFile);
     watcher(const watcher& orig);
     virtual ~watcher();
 
-    void readJson(char * pathToFile);
+    void readJson(const char * pathToFile);
     void watch();
     
     void sendToServer(const QString& fileName, const QString& text);

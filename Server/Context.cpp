@@ -9,8 +9,7 @@
 #include "Context.h"
 
 Context::Context(QObject *parent)
-{
-
+{	
 	if (!server.listen())
 	{
 		qDebug() << "Threaded Fortune Server";
@@ -47,5 +46,8 @@ Context::Context(const Context& orig)
 
 Context::~Context()
 {
+#ifdef DEBUG
+	qDebug() << "Destructor context";
+#endif
 }
 

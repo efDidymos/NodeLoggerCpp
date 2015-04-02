@@ -14,7 +14,7 @@ socketDescriptor(socketDescriptor),
 QThread(parent)
 {
 #ifdef DEBUG
-	qDebug() << "Konstruktor thread";
+	qDebug() << "Constructor thread";
 #endif
 
 	tcpSocket = new QTcpSocket(this);
@@ -23,17 +23,18 @@ QThread(parent)
 	{
 		emit error(tcpSocket->error());
 #ifdef DEBUG
-		qDebug() << "Server ma problemy";
+		qDebug() << "Server has errors";
 #endif
 		return;
 	}
 	else
 	{
 #ifdef DEBUG
-		qDebug() << "Server bezi";
+		qDebug() << "Server is running";
 #endif
 
 		blockSize = 0;
+		QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
 		QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(read()));
 	}
 }
@@ -45,14 +46,15 @@ Thread::Thread(const Thread& orig)
 Thread::~Thread()
 {
 #ifdef DEBUG
-	qDebug() << "Destruktor thread";
+	qDebug() << "Destructor thread";
 #endif
+	delete tcpSocket;
 }
 
 void Thread::read()
 {
 #ifdef DEBUG
-	qDebug() << "Prijala sa sprava";
+	qDebug() << "Received message";
 #endif
 
 	QDataStream in(tcpSocket);
@@ -74,6 +76,6 @@ void Thread::read()
 
 	currentText = nextText;
 
-	qDebug() << "Od " << logger << ", v subore " << fileName << " prijaty text:";
+	qDebug() << "From " << logger << ", in file " << fileName << " received:";
 	qDebug() << currentText;
 }

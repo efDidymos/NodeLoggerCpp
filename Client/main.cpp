@@ -5,21 +5,36 @@
  * Created on Nedeľa, 2015, februára 8, 11:34
  */
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDebug>
-
+#include <csignal>
 #include "watcher.h"
+
+watcher * myWatcher;
+
+static void cleanup(int sig)
+{
+#ifdef DEBUG
+	qDebug() << "Caught CTRL+C signal, Bye :)";
+#endif
+
+	if (myWatcher) delete myWatcher;
+	myWatcher = NULL;
+	if (sig == SIGINT) qApp->quit();
+}
 
 int main(int argc, char *argv[])
 {
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
 
-	QApplication app(argc, argv);
+	signal(SIGINT, cleanup);
+
+	QCoreApplication app(argc, argv);
 
 	if (QFile::exists(argv[1]))
 	{
-		watcher * myWatcher = new watcher(argv[1]);
+		myWatcher = new watcher(argv[1]);
 
 		// create and show your widgets here
 

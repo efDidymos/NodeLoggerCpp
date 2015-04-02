@@ -14,7 +14,7 @@
 #include <QTimer>
 #include <QDebug>
 
-watcher::watcher(char * pathToFile)
+watcher::watcher(const char * pathToFile)
 {
 	readJson(pathToFile);
 }
@@ -25,21 +25,32 @@ watcher::watcher(const watcher& orig)
 
 watcher::~watcher()
 {
-	delete watchList;
+#ifdef DEBUG
+	qDebug() << "Destructor watcher";
+#endif
+
+	if (watchList) delete watchList;
+	watchList = NULL;
+
+	if (tcpSocket) delete tcpSocket;
+	tcpSocket = NULL;
+
+	if (networkSession) delete networkSession;
+	networkSession = NULL;
 }
 
-void watcher::readJson(char * pathToFile)
+void watcher::readJson(const char * pathToFile)
 {
 	QString data;
 	QJsonParseError jsonEror;
-	QFile *cFile = new QFile(QString::fromUtf8(pathToFile));
+	QFile cFile(QString::fromUtf8(pathToFile));
 
 	try
 	{
-		if (cFile->open(QIODevice::ReadOnly | QIODevice::Text))
+		if (cFile.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
-			data = cFile->readAll();
-			cFile->close();
+			data = cFile.readAll();
+			cFile.close();
 
 			QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonEror);
 
@@ -109,14 +120,15 @@ void watcher::watch()
 
 void watcher::sendToServer(const QString& fileName, const QString& text)
 {
-	struct Packet 
+
+	struct Packet
 	{
 		QString id;
 		QString data;
 	};
-	
+
 	Packet packet = {idWatcher, text};
-	
+
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_4);
@@ -126,7 +138,7 @@ void watcher::sendToServer(const QString& fileName, const QString& text)
 	out << (quint16) (block.size() - sizeof (quint16));
 
 #ifdef DEBUG
-	qDebug() << "Odosielam na server blok o dlzke: ";
+	qDebug() << "Sending to the server message block of size: ";
 	qDebug() << ((quint16) (block.size() - sizeof (quint16)));
 #endif
 
@@ -154,7 +166,7 @@ void watcher::showModified(const QString& fileName)
 			added.append(f.readLine());
 
 #ifdef DEBUG
-		qDebug() << "Precitane data:";
+		qDebug() << "Readed data:";
 		qDebug() << added;
 #endif
 
@@ -178,7 +190,7 @@ void watcher::displayError(QAbstractSocket::SocketError socketError)
 			break;
 
 		case QAbstractSocket::ConnectionRefusedError:
-			qDebug() << "The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct.";
+			qDebug() << "The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.";
 			break;
 
 		default:

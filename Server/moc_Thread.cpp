@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Thread_t {
-    QByteArrayData data[6];
-    char stringdata[55];
+    QByteArrayData data[7];
+    char stringdata[74];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,11 +34,12 @@ QT_MOC_LITERAL(1, 7, 5), // "error"
 QT_MOC_LITERAL(2, 13, 0), // ""
 QT_MOC_LITERAL(3, 14, 23), // "QTcpSocket::SocketError"
 QT_MOC_LITERAL(4, 38, 11), // "socketError"
-QT_MOC_LITERAL(5, 50, 4) // "read"
+QT_MOC_LITERAL(5, 50, 4), // "read"
+QT_MOC_LITERAL(6, 55, 18) // "clientDisconnected"
 
     },
     "Thread\0error\0\0QTcpSocket::SocketError\0"
-    "socketError\0read"
+    "socketError\0read\0clientDisconnected"
 };
 #undef QT_MOC_LITERAL
 
@@ -48,7 +49,7 @@ static const uint qt_meta_data_Thread[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -56,15 +57,17 @@ static const uint qt_meta_data_Thread[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    1,   29,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   27,    2, 0x0a /* Public */,
+       5,    0,   32,    2, 0x0a /* Public */,
+       6,    0,   33,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -77,6 +80,7 @@ void Thread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->error((*reinterpret_cast< QTcpSocket::SocketError(*)>(_a[1]))); break;
         case 1: _t->read(); break;
+        case 2: _t->clientDisconnected(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -116,13 +120,13 @@ int Thread::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
