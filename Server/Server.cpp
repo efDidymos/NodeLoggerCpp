@@ -7,6 +7,7 @@
 
 #include "Server.h"
 #include "Thread.h"
+#include <thread>
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
@@ -30,5 +31,23 @@ void Server::incomingConnection(qintptr socketDescriptor)
 {
 	Thread *thread = new Thread(socketDescriptor, this);
 	QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+	QObject::connect(thread, SIGNAL(send2MainThread(const QString &, const QString &, const QString &)), this, SLOT(write2db(const QString &, const QString &, const QString &)));
 	thread->start();
+}
+
+void Server::write2db(const QString & logger, const QString & fileName, const QString & text)
+{
+	QMutexLocker locker(&dbLock);
+	
+	qDebug() << "Zapisujem";
+	
+	qDebug() << "From " << logger << ", in file " << fileName << " received:";
+	qDebug() << text;
+
+
+	qDebug() << "Pockam";
+	
+	std::this_thread::sleep_for (std::chrono::seconds(5));
+	
+	qDebug() << "Hotovo";
 }

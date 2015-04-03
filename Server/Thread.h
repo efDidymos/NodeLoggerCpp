@@ -21,6 +21,7 @@ public:
     virtual ~Thread();
 
 signals:
+    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
     void error(QTcpSocket::SocketError socketError);
 
 public slots:

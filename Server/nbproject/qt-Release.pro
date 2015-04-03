@@ -20,8 +20,8 @@ UI_DIR =
 QMAKE_CC = clang
 QMAKE_CXX = clang++
 DEFINES += 
-INCLUDEPATH += 
-LIBS += 
+INCLUDEPATH += . 
+LIBS += `cppunit-config --libs`  
 equals(QT_MAJOR_VERSION, 4) {
 QMAKE_CXXFLAGS += -std=c++11
 }

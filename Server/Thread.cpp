@@ -76,6 +76,5 @@ void Thread::read()
 
 	currentText = nextText;
 
-	qDebug() << "From " << logger << ", in file " << fileName << " received:";
-	qDebug() << currentText;
+	emit send2MainThread(logger, fileName, currentText);
 }
