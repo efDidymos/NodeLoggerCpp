@@ -38,16 +38,14 @@ void Server::incomingConnection(qintptr socketDescriptor)
 void Server::write2db(const QString & logger, const QString & fileName, const QString & text)
 {
 	QMutexLocker locker(&dbLock);
-	
-	qDebug() << "Zapisujem";
-	
+		
 	qDebug() << "From " << logger << ", in file " << fileName << " received:";
 	qDebug() << text;
 
 
-	qDebug() << "Pockam";
+	qDebug() << "Waiting 5 seconds simulating writing process.";
 	
 	std::this_thread::sleep_for (std::chrono::seconds(5));
 	
-	qDebug() << "Hotovo";
+	qDebug() << "Writing done!";
 }
