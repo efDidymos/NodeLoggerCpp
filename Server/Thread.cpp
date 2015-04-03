@@ -8,9 +8,11 @@
 #include "Thread.h"
 #include <QObject>
 #include <QTimer>
+#include <thread>
 
-Thread::Thread(int socketDescriptor, QObject *parent) :
+Thread::Thread(int socketDescriptor, QMutex *lock, QObject *parent) :
 socketDescriptor(socketDescriptor),
+lock(lock),
 QThread(parent)
 {
 #ifdef DEBUG
@@ -48,7 +50,8 @@ Thread::~Thread()
 #ifdef DEBUG
 	qDebug() << "Destructor thread";
 #endif
-	delete tcpSocket;
+	if (tcpSocket) delete tcpSocket;
+	tcpSocket = NULL;
 }
 
 void Thread::read()
@@ -76,5 +79,17 @@ void Thread::read()
 
 	currentText = nextText;
 
-	emit send2MainThread(logger, fileName, currentText);
+	QMutexLocker locker(lock);
+
+	qDebug() << "From " << logger << ", in file " << fileName << " received:";
+	qDebug() << nextText;
+
+
+	qDebug() << "Waiting 5 seconds simulating writing process.";
+
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+
+	//	emit send2MainThread(logger, fileName, currentText);
+
+	qDebug() << "Writing done!";
 }

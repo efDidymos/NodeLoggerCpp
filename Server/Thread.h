@@ -10,18 +10,19 @@
 
 #include <QThread>
 #include <QTcpSocket>
+#include <QMutex>
 
 class Thread : public QThread
 {
     Q_OBJECT
 
 public:
-    Thread(int socketDescriptor, QObject *parent);
+    Thread(int socketDescriptor, QMutex *lock, QObject *parent);
     Thread(const Thread& orig);
     virtual ~Thread();
 
 signals:
-    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
+//    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
     void error(QTcpSocket::SocketError socketError);
 
 public slots:
@@ -30,6 +31,7 @@ public slots:
 private:
     int socketDescriptor;
     QTcpSocket *tcpSocket;
+    QMutex *lock;
     quint16 blockSize;
     
     QString currentText;

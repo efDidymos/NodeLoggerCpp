@@ -7,7 +7,6 @@
 
 #include "Server.h"
 #include "Thread.h"
-#include <thread>
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
@@ -29,12 +28,13 @@ Server::~Server()
 
 void Server::incomingConnection(qintptr socketDescriptor)
 {
-	Thread *thread = new Thread(socketDescriptor, this);
+	Thread *thread = new Thread(socketDescriptor, &dbLock, this);
 	QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-	QObject::connect(thread, SIGNAL(send2MainThread(const QString &, const QString &, const QString &)), this, SLOT(write2db(const QString &, const QString &, const QString &)));
+//	QObject::connect(thread, SIGNAL(send2MainThread(const QString &, const QString &, const QString &)), this, SLOT(write2db(const QString &, const QString &, const QString &)));
 	thread->start();
 }
 
+/*
 void Server::write2db(const QString & logger, const QString & fileName, const QString & text)
 {
 	QMutexLocker locker(&dbLock);
@@ -49,3 +49,4 @@ void Server::write2db(const QString & logger, const QString & fileName, const QS
 	
 	qDebug() << "Writing done!";
 }
+*/

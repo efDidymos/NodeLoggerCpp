@@ -20,12 +20,14 @@ public:
     Server(const Server& orig);
     virtual ~Server();
 
+/*
 signals:
     void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
     
 public slots:
     void write2db(const QString & logger, const QString & fileName, const QString & text);
-
+*/
+    
 protected:
     void incomingConnection(qintptr socketDescriptor) Q_DECL_OVERRIDE;
 
