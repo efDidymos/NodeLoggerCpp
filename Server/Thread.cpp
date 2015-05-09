@@ -13,6 +13,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include <ctime>
+
 #include <QDebug>
 
 Thread::Thread(int socketDescriptor, QMutex *lock, QObject *parent) :
@@ -105,9 +107,13 @@ void Thread::read()
 			QSqlQuery query(db);
 			query.prepare("INSERT INTO data (fromNode, whenCame, inFileOfNode, text) "
 						  "VALUES (:fromNode, :whenCame, :inFileOfNode, :text)");
-
+			
+			std::time_t epoch = std::time(NULL);
+			char actualTime[100];
+			std::strftime(actualTime, sizeof(actualTime), "%Y-%m-%d %H:%M:%S", std::localtime(&epoch));
+			
 			query.bindValue(":fromNode", logger);
-			query.bindValue(":whenCame", "CURRENT_TIMESTAMP");
+			query.bindValue(":whenCame", actualTime);
 			query.bindValue(":inFileOfNode", fileName);
 			query.bindValue(":text", nextText);
 			query.exec();
