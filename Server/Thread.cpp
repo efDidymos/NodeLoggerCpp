@@ -10,6 +10,11 @@
 #include <QTimer>
 #include <thread>
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
+#include <QDebug>
+
 Thread::Thread(int socketDescriptor, QMutex *lock, QObject *parent) :
 socketDescriptor(socketDescriptor),
 lock(lock),
@@ -87,7 +92,33 @@ void Thread::read()
 
 	qDebug() << "Waiting 5 seconds simulating writing process.";
 
-	std::this_thread::sleep_for(std::chrono::seconds(5));
+	{
+		QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "myDB");
+		db.setHostName("localhost");
+		db.setDatabaseName("nodelogger");
+		db.setUserName("kaskaderi");
+		db.setPassword("slovensko");
+
+		if (!db.open()) qDebug() << "Error connecting to database";
+		else
+		{
+			QSqlQuery query(db);
+			query.prepare("INSERT INTO data (fromNode, whenCame, inFileOfNode, text) "
+						  "VALUES (:fromNode, :whenCame, :inFileOfNode, :text)");
+
+			query.bindValue(":fromNode", logger);
+			query.bindValue(":whenCame", "CURRENT_TIMESTAMP");
+			query.bindValue(":inFileOfNode", fileName);
+			query.bindValue(":text", nextText);
+			query.exec();
+
+			db.close();
+		}
+	}
+
+	QSqlDatabase::removeDatabase("myDB");
+
+	//	std::this_thread::sleep_for(std::chrono::seconds(5));
 
 	//	emit send2MainThread(logger, fileName, currentText);
 
