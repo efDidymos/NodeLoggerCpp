@@ -7,21 +7,21 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=CLang-Linux-x86
-CND_ARTIFACT_DIR_Debug=dist/Debug/CLang-Linux-x86
+CND_PLATFORM_Debug=CLang/LLVM-Linux
+CND_ARTIFACT_DIR_Debug=dist/Debug/CLang/LLVM-Linux
 CND_ARTIFACT_NAME_Debug=Client
-CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-Linux-x86/Client
-CND_PACKAGE_DIR_Debug=dist/Debug/CLang-Linux-x86/package
+CND_ARTIFACT_PATH_Debug=dist/Debug/CLang/LLVM-Linux/Client
+CND_PACKAGE_DIR_Debug=dist/Debug/CLang/LLVM-Linux/package
 CND_PACKAGE_NAME_Debug=Client.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/CLang-Linux-x86/package/Client.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/CLang/LLVM-Linux/package/Client.tar
 # Release configuration
-CND_PLATFORM_Release=CLang-Linux-x86
-CND_ARTIFACT_DIR_Release=dist/Release/CLang-Linux-x86
+CND_PLATFORM_Release=CLang/LLVM-Linux
+CND_ARTIFACT_DIR_Release=dist/Release/CLang/LLVM-Linux
 CND_ARTIFACT_NAME_Release=Client
-CND_ARTIFACT_PATH_Release=dist/Release/CLang-Linux-x86/Client
-CND_PACKAGE_DIR_Release=dist/Release/CLang-Linux-x86/package
+CND_ARTIFACT_PATH_Release=dist/Release/CLang/LLVM-Linux/Client
+CND_PACKAGE_DIR_Release=dist/Release/CLang/LLVM-Linux/package
 CND_PACKAGE_NAME_Release=Client.tar
-CND_PACKAGE_PATH_Release=dist/Release/CLang-Linux-x86/package/Client.tar
+CND_PACKAGE_PATH_Release=dist/Release/CLang/LLVM-Linux/package/Client.tar
 #
 # include compiler specific variables
 #

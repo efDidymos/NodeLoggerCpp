@@ -13,6 +13,7 @@
 #include <QJsonParseError>
 #include <QFile>
 #include <QDebug>
+#include <QDataStream>
 
 watcher::watcher(const char * pathToFile)
 {
@@ -131,7 +132,7 @@ void watcher::sendToServer(const QString& fileName, const QString& text) const
 
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_4);
+	out.setVersion(QDataStream::Qt_5_5);
 	out << (quint16) 0;
 	out << text << idWatcher << fileName;
 	out.device()->seek(0);
