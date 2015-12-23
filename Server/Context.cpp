@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include "Context.h"
+#include <stdexcept>
 
 Context::Context(const char * pathToFile, QObject *parent)
 {	

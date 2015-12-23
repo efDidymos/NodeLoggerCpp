@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=CLang-Linux-x86
+CND_PLATFORM=CLang/LLVM-Linux
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build

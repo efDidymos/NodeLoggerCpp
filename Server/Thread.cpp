@@ -16,11 +16,12 @@
 #include <ctime>
 
 #include <QDebug>
+#include <QDataStream>
 
 Thread::Thread(int socketDescriptor, QMutex *lock, QObject *parent) :
 socketDescriptor(socketDescriptor),
-lock(lock),
-QThread(parent)
+QThread(parent),
+lock(lock)
 {
 #ifdef DEBUG
 	qDebug() << "Constructor thread";
@@ -68,7 +69,7 @@ void Thread::read()
 #endif
 
 	QDataStream in(tcpSocket);
-	in.setVersion(QDataStream::Qt_5_0);
+        in.setVersion(QDataStream::Qt_5_5);
 
 	if (blockSize == 0)
 	{

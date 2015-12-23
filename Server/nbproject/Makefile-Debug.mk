@@ -14,15 +14,15 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=clang
-CCC=clang++
-CXX=clang++
+CC=clang-3.7
+CCC=clang++-3.7
+CXX=clang++-3.7
 FC=gfortran
 AS=as
 QMAKE=qmake
 
 # Macros
-CND_PLATFORM=CLang-Linux-x86
+CND_PLATFORM=CLang/LLVM-Linux
 CND_DLIB_EXT=so
 CND_CONF=Debug
 CND_DISTDIR=dist
