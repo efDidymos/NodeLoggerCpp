@@ -19,12 +19,14 @@ Used technologies: C++ STL QT 5.5
       http://packages.ubuntu.com/
 
   2.3. After downloading the package install it via command:
-      `sudo dpkg -i <package_name>`
+      
+      sudo dpkg -i <package_name>
 
   2.4. The last treatment is based on this http://stackoverflow.com/a/34431545 thread.
   
     2.4.1. The solution of problem with secure connecting to database is need to install ssl package via command lin:
-      `sudo apt-get install openssl`
+      
+      sudo apt-get install openssl
 
 
     2.4.2. And then create symbolic links because they are missing in distribution packages.
