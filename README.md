@@ -11,10 +11,10 @@ Used technologies: C++ STL QT 5.5
 
 2. For ensure connection to MySQL database there is further need to make additional changes.
 
-  2.1. In the Server root directory of project (NodeLoggerCpp/Server/) create soft link to the database driver shared library:
+  2.1. In the Server root directory of project (NodeLoggerCpp/Server/) create soft link to the shared library of the QT database driver:
       `ln -s ~/Qt/5.5/gcc_64/plugins/sqldrivers/libqsqlmysql.so libqsqlmysql.so`
 
-  2.2. Also based on this http://www.qtcentre.org/threads/55365-QSqlDatabase-QMYSQL-driver-not-loaded-but-available?p=264844#post264844 thread the Qt database driver was compiled with older package libmysqlclient16 (Ubuntu 14.04 LTS contain libmysqlclient18). Therefore download the older package from:
+  2.2. Also based on this http://www.qtcentre.org/threads/55365-QSqlDatabase-QMYSQL-driver-not-loaded-but-available?p=264844#post264844 thread the Qt database driver was compiled against an older package libmysqlclient16 (Ubuntu 14.04 LTS contain libmysqlclient18). Therefore download the older package from:
       http://packages.ubuntu.com/
 
   2.3. After downloading the package install it via command:
