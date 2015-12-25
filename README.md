@@ -27,10 +27,11 @@ Used technologies: C++ STL QT 5.5
 
 
     2.4.2. And then create symbolic links because they are missing in distribution packages.
-      `cd /lib/x86_64-linux-gnu
+    
+      cd /lib/x86_64-linux-gnu
       
       sudo ln -s libssl.so.1.0.0 libssl.so.10
       
-      sudo ln -s libcrypto.so.1.0.0 libcrypto.so.10`
+      sudo ln -s libcrypto.so.1.0.0 libcrypto.so.10
 
 3. That is all. You are ready to compile and run ;-)
