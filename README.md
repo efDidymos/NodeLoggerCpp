@@ -1,9 +1,24 @@
 # NodeLoggerCpp
-Application for transferring information from a logs to server. The logs are watched for any changes.
+The command line applications that monitor log files for changes. If the client part detects any changes in monitored files information is sent off via internet connection to the server part that writes data to DB server.
 
-Used technologies: C++ STL QT 5.5
+Used technologies: C++ STL QT 5.5 SQL
 
 ---
+
+#Usage
+  To start server
+
+    ./Server/dist/Debug/<Your_Used_Compiler>/Server <config_file>
+    
+  or client
+    
+    ./Client/dist/Debug/<Your_Used_Compiler>/Client <config_file>
+    
+##Legend  
+  \<Your_Used_Compiler>  - CLang, GNU-Linux, ...
+  
+  \<config_file> - located in ./Server/config.json or ./Client/config.json
+
 
 #Instructions for Ubuntu 14.04 LTS 
 
@@ -38,3 +53,20 @@ Used technologies: C++ STL QT 5.5
       sudo ln -s libcrypto.so.1.0.0 libcrypto.so.10
 
 3. That is all. You are ready to compile and run ;-)
+
+---
+
+##If you receive error in similar manner
+
+    In file included from Thread.cpp:11:
+    In file included from /usr/bin/../lib/gcc/x86_64-linux-gnu/5.3.0/../../../../include/c++/5.3.0/thread:35:/usr/bin/../lib/gcc/x86_64-linux-gnu/5.3.0/../../../../include/c++/5.3.0/bits/c++0x_warning.h:32:2: error: This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+    error This file requires compiler and library support for the 
+
+You set (in NetBeans) compiler standard to C++14 and additionally you need toenable Qt compilation with new standard.
+
+1. Right click on the project -> Properties -> Build -> Qt -> Expert -> Custom Definitions
+2. Then click on three dots
+3. Click Add button and type 
+
+    CONFIG += c++14
+4. Press OK, OK, OK
