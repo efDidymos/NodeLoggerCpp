@@ -6,7 +6,7 @@
  */
 
 #ifndef WATCHER_H
-#define	WATCHER_H
+#define WATCHER_H
 
 #include <QObject>
 #include <QMap>
@@ -14,7 +14,8 @@
 #include <QTcpSocket>
 #include <QNetworkSession>
 
-struct server {
+struct server
+{
     QString host;
     quint16 port;
 };
@@ -30,7 +31,7 @@ public:
 
     void readJson(const char * pathToFile);
     void watch();
-    
+
     void sendToServer(const QString& fileName, const QString& text) const;
 
 public slots:
@@ -39,17 +40,17 @@ public slots:
 
 private:
     QString idWatcher;
-    
+
     server targetServer;
-    
+
     QMap<QString, int> map;
     QFileSystemWatcher *watchList;
-    
+
     QTcpSocket *tcpSocket;
     quint16 blockSize;
-    
+
     QNetworkSession *networkSession;
 };
 
-#endif	/* WATCHER_H */
+#endif /* WATCHER_H */
 

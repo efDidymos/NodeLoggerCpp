@@ -41,10 +41,13 @@
       </toolsSet>
       <qt>
         <modules>core gui widgets network</modules>
+        <defs>
+          <Elem>CONFIG += c++14</Elem>
+        </defs>
       </qt>
       <compileType>
         <ccTool>
-          <standard>8</standard>
+          <standard>11</standard>
           <preprocessorList>
             <Elem>DEBUG</Elem>
           </preprocessorList>

@@ -17,7 +17,7 @@
 
 watcher::watcher(const char * pathToFile)
 {
-	readJson(pathToFile);
+    readJson(pathToFile);
 }
 
 watcher::watcher(const watcher& orig)
@@ -27,175 +27,175 @@ watcher::watcher(const watcher& orig)
 watcher::~watcher()
 {
 #ifdef DEBUG
-	qDebug() << "Destructor watcher";
+    qDebug() << "Destructor watcher";
 #endif
 
-	if (watchList) delete watchList;
-	watchList = NULL;
+    if (watchList) delete watchList;
+    watchList = NULL;
 
-	if (tcpSocket) delete tcpSocket;
-	tcpSocket = NULL;
+    if (tcpSocket) delete tcpSocket;
+    tcpSocket = NULL;
 
-	if (networkSession) delete networkSession;
-	networkSession = NULL;
+    if (networkSession) delete networkSession;
+    networkSession = NULL;
 }
 
 void watcher::readJson(const char * pathToFile)
 {
-	QString data;
-	QJsonParseError jsonEror;
-	QFile cFile(QString::fromUtf8(pathToFile));
+    QString data;
+    QJsonParseError jsonEror;
+    QFile cFile(QString::fromUtf8(pathToFile));
 
-	try
-	{
-		if (cFile.open(QIODevice::ReadOnly | QIODevice::Text))
-		{
-			data = cFile.readAll();
-			cFile.close();
+    try
+    {
+        if (cFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            data = cFile.readAll();
+            cFile.close();
 
-			QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonEror);
+            QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonEror);
 
-			if (jsonEror.error != QJsonParseError::NoError)
-				throw std::invalid_argument(jsonEror.errorString().toUtf8().constData());
+            if (jsonEror.error != QJsonParseError::NoError)
+                throw std::invalid_argument(jsonEror.errorString().toUtf8().constData());
 
-			QJsonObject obj = doc.object();
+            QJsonObject obj = doc.object();
 
-			idWatcher = obj["id"].toString();
-			qDebug() << "This watcher is: " << idWatcher;
+            idWatcher = obj["id"].toString();
+            qDebug() << "This watcher is: " << idWatcher;
 
-			QJsonObject sobj = obj["target"].toObject();
-			targetServer.host = sobj["host"].toString();
-			targetServer.port = sobj["port"].toString().toInt();
+            QJsonObject sobj = obj["target"].toObject();
+            targetServer.host = sobj["host"].toString();
+            targetServer.port = sobj["port"].toString().toInt();
 
-			qDebug() << "Target address is: " << targetServer.host << ":" << targetServer.port;
+            qDebug() << "Target address is: " << targetServer.host << ":" << targetServer.port;
 
-			QJsonArray files = obj["files"].toArray();
+            QJsonArray files = obj["files"].toArray();
 
-			foreach(QJsonValue file, files)
-			if (QFile::exists(file.toString()))
-			{
-				QFile f(file.toString());
+            foreach(QJsonValue file, files)
+            if (QFile::exists(file.toString()))
+            {
+                QFile f(file.toString());
 
-				int pos = 0;
+                int pos = 0;
 
-				if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
-					qDebug() << "The file " << file.toString() << " can not be read.";
-				else
-				{
-					pos = f.size();
+                if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+                    qDebug() << "The file " << file.toString() << " can not be read.";
+                else
+                {
+                    pos = f.size();
 
-					map.insert(file.toString(), pos);
+                    map.insert(file.toString(), pos);
 
-					f.close();
+                    f.close();
 
-					qDebug() << "File " << file.toString() << " added to watchlist.";
-				}
-			}
-			else
-				qDebug() << "File " << file.toString() << " does not exist!";
+                    qDebug() << "File " << file.toString() << " added to watchlist.";
+                }
+            }
+            else
+                qDebug() << "File " << file.toString() << " does not exist!";
 
-			qDebug() << "Configuration file leaded succesfully.";
+            qDebug() << "Configuration file leaded succesfully.";
 
-			watch();
-		}
-		else
-			throw std::invalid_argument("Can not read the config file!");
-	}
-	catch (std::exception& e)
-	{
-		qCritical() << "Exception caught: " << e.what();
-	}
+            watch();
+        }
+        else
+            throw std::invalid_argument("Can not read the config file!");
+    }
+    catch (std::exception& e)
+    {
+        qCritical() << "Exception caught: " << e.what();
+    }
 }
 
 void watcher::watch()
 {
-	watchList = new QFileSystemWatcher(map.keys());
+    watchList = new QFileSystemWatcher(map.keys());
 
-	QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+    QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 
-	networkSession = NULL;
-	tcpSocket = new QTcpSocket(this);
+    networkSession = NULL;
+    tcpSocket = new QTcpSocket(this);
 
-	QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
 void watcher::sendToServer(const QString& fileName, const QString& text) const
 {
 
-	struct Packet
-	{
-		QString id;
-		QString data;
-	};
+    struct Packet
+    {
+        QString id;
+        QString data;
+    };
 
-	Packet packet = {idWatcher, text};
+    Packet packet = {idWatcher, text};
 
-	QByteArray block;
-	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
-	out << (quint16) 0;
-	out << text << idWatcher << fileName;
-	out.device()->seek(0);
-	out << (quint16) (block.size() - sizeof (quint16));
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_5);
+    out << (quint16) 0;
+    out << text << idWatcher << fileName;
+    out.device()->seek(0);
+    out << (quint16) (block.size() - sizeof (quint16));
 
 #ifdef DEBUG
-	qDebug() << "Sending to the server message block of size: ";
-	qDebug() << ((quint16) (block.size() - sizeof (quint16)));
+    qDebug() << "Sending to the server message block of size: ";
+    qDebug() << ((quint16) (block.size() - sizeof (quint16)));
 #endif
 
-	tcpSocket->connectToHost(targetServer.host, targetServer.port);
-	tcpSocket->write(block);
-	tcpSocket->disconnectFromHost();
+    tcpSocket->connectToHost(targetServer.host, targetServer.port);
+    tcpSocket->write(block);
+    tcpSocket->disconnectFromHost();
 }
 
 void watcher::showModified(const QString& fileName)
 {
 #ifdef DEBUG
-	qDebug() << "The " << fileName << " changed.";
+    qDebug() << "The " << fileName << " changed.";
 #endif
 
-	QFile f(fileName);
+    QFile f(fileName);
 
-	if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
-		qDebug() << "The file " << fileName << " can not be read.";
-	else
-	{
-		f.seek(map.value(fileName));
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+        qDebug() << "The file " << fileName << " can not be read.";
+    else
+    {
+        f.seek(map.value(fileName));
 
-		QString added;
-		while (!f.atEnd())
-			added.append(f.readLine());
+        QString added;
+        while (!f.atEnd())
+            added.append(f.readLine());
 
 #ifdef DEBUG
-		qDebug() << "Readed data:";
-		qDebug() << added;
+        qDebug() << "Readed data:";
+        qDebug() << added;
 #endif
 
-		map.insert(fileName, f.pos());
+        map.insert(fileName, f.pos());
 
-		f.close();
+        f.close();
 
-		sendToServer(fileName, added);
-	}
+        sendToServer(fileName, added);
+    }
 }
 
 void watcher::displayError(QAbstractSocket::SocketError socketError) const
 {
-	switch (socketError)
-	{
-		case QAbstractSocket::RemoteHostClosedError:
-			break;
+    switch (socketError)
+    {
+    case QAbstractSocket::RemoteHostClosedError:
+        break;
 
-		case QAbstractSocket::HostNotFoundError:
-			qDebug() << "The host was not found. Please check the host name and port settings.";
-			break;
+    case QAbstractSocket::HostNotFoundError:
+        qDebug() << "The host was not found. Please check the host name and port settings.";
+        break;
 
-		case QAbstractSocket::ConnectionRefusedError:
-			qDebug() << "The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.";
-			break;
+    case QAbstractSocket::ConnectionRefusedError:
+        qDebug() << "The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.";
+        break;
 
-		default:
-			qDebug() << "The following error occurred:" << tcpSocket->errorString();
-	}
+    default:
+        qDebug() << "The following error occurred:" << tcpSocket->errorString();
+    }
 
 }

@@ -15,35 +15,35 @@ watcher * myWatcher;
 static void cleanup(int sig)
 {
 #ifdef DEBUG
-	qDebug() << "Caught CTRL+C signal, Bye :)";
+    qDebug() << "Caught CTRL+C signal, Bye :)";
 #endif
 
-	if (myWatcher) delete myWatcher;
-	myWatcher = NULL;
-	if (sig == SIGINT) qApp->quit();
+    if (myWatcher) delete myWatcher;
+    myWatcher = NULL;
+    if (sig == SIGINT) qApp->quit();
 }
 
 int main(int argc, char *argv[])
 {
-	// initialize resources, if needed
-	// Q_INIT_RESOURCE(resfile);
+    // initialize resources, if needed
+    // Q_INIT_RESOURCE(resfile);
 
-	signal(SIGINT, cleanup);
+    signal(SIGINT, cleanup);
 
-	QCoreApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
-	if (QFile::exists(argv[1]))
-	{
-		myWatcher = new watcher(argv[1]);
+    if (QFile::exists(argv[1]))
+    {
+        myWatcher = new watcher(argv[1]);
 
-		// create and show your widgets here
+        // create and show your widgets here
 
-		return app.exec();
-	}
-	else
-	{
-		qCritical() << "Argument error: config file '" <<  argv[1] << "' does not exist!";
-		qDebug() << "Usage:" << argv[0] << "<config file>";
-		return 0;
-	}
+        return app.exec();
+    }
+    else
+    {
+        qCritical() << "Argument error: config file '" << argv[1] << "' does not exist!";
+        qDebug() << "Usage:" << argv[0] << "<config file>";
+        return 0;
+    }
 }

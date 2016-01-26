@@ -17,14 +17,12 @@ OBJECTS_DIR = build/Debug/CLang/LLVM-Linux
 MOC_DIR = 
 RCC_DIR = 
 UI_DIR = 
-QMAKE_CC = clang-3.7
-QMAKE_CXX = clang++-3.7
+QMAKE_CC = clang
+QMAKE_CXX = clang++
 DEFINES += DEBUG 
 INCLUDEPATH += 
 LIBS += 
 equals(QT_MAJOR_VERSION, 4) {
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 }
-equals(QT_MAJOR_VERSION, 5) {
-CONFIG += c++11
-}
+CONFIG += c++14
