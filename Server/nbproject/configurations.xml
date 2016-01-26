@@ -4,7 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Context.h</itemPath>
+      <itemPath>Initialize.h</itemPath>
       <itemPath>Server.h</itemPath>
       <itemPath>Thread.h</itemPath>
     </logicalFolder>
@@ -16,7 +16,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Context.cpp</itemPath>
+      <itemPath>Initialize.cpp</itemPath>
       <itemPath>Server.cpp</itemPath>
       <itemPath>Thread.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -37,12 +37,15 @@
   <confs>
     <conf name="Debug" type="4">
       <toolsSet>
-        <compilerSet>CLang/LLVM|GNU</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <qt>
         <modules>core gui widgets network sql</modules>
+        <defs>
+          <Elem>CONFIG += c++14</Elem>
+        </defs>
       </qt>
       <compileType>
         <cTool>
@@ -52,7 +55,7 @@
           <commandLine>`cppunit-config --cflags`</commandLine>
         </cTool>
         <ccTool>
-          <standard>8</standard>
+          <standard>11</standard>
           <incDir>
             <pElem>.</pElem>
           </incDir>
@@ -68,9 +71,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="Context.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Initialize.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Context.h" ex="false" tool="3" flavor2="0">
+      <item path="Initialize.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Server.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -124,9 +127,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="Context.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Initialize.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Context.h" ex="false" tool="3" flavor2="0">
+      <item path="Initialize.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Server.cpp" ex="false" tool="1" flavor2="0">
       </item>

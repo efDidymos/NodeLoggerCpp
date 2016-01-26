@@ -24,29 +24,29 @@ QThread(parent),
 lock(lock)
 {
 #ifdef DEBUG
-	qDebug() << "Constructor thread";
+    qDebug() << "Constructor thread";
 #endif
 
-	tcpSocket = new QTcpSocket(this);
+    tcpSocket = new QTcpSocket(this);
 
-	if (!tcpSocket->setSocketDescriptor(socketDescriptor))
-	{
-		emit error(tcpSocket->error());
+    if (!tcpSocket->setSocketDescriptor(socketDescriptor))
+    {
+        emit error(tcpSocket->error());
 #ifdef DEBUG
-		qDebug() << "Server has errors";
+        qDebug() << "Server has errors";
 #endif
-		return;
-	}
-	else
-	{
+        return;
+    }
+    else
+    {
 #ifdef DEBUG
-		qDebug() << "Server is running";
+        qDebug() << "Server is running";
 #endif
 
-		blockSize = 0;
-		QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
-		QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(read()));
-	}
+        blockSize = 0;
+        QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
+        QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(read()));
+    }
 }
 
 Thread::Thread(const Thread& orig)
@@ -56,78 +56,78 @@ Thread::Thread(const Thread& orig)
 Thread::~Thread()
 {
 #ifdef DEBUG
-	qDebug() << "Destructor thread";
+    qDebug() << "Destructor thread";
 #endif
-	if (tcpSocket) delete tcpSocket;
-	tcpSocket = NULL;
+    if (tcpSocket) delete tcpSocket;
+    tcpSocket = NULL;
 }
 
 void Thread::read()
 {
 #ifdef DEBUG
-	qDebug() << "Received message";
+    qDebug() << "Received message";
 #endif
 
-	QDataStream in(tcpSocket);
-        in.setVersion(QDataStream::Qt_5_5);
+    QDataStream in(tcpSocket);
+    in.setVersion(QDataStream::Qt_5_5);
 
-	if (blockSize == 0)
-	{
-		if (tcpSocket->bytesAvailable() < (int) sizeof (quint16))
-			return;
+    if (blockSize == 0)
+    {
+        if (tcpSocket->bytesAvailable() < (int) sizeof (quint16))
+            return;
 
-		in >> blockSize;
-	}
+        in >> blockSize;
+    }
 
-	if (tcpSocket->bytesAvailable() < blockSize)
-		return;
+    if (tcpSocket->bytesAvailable() < blockSize)
+        return;
 
-	QString nextText, fileName;
-	in >> nextText >> logger >> fileName;
+    QString nextText, fileName;
+    in >> nextText >> logger >> fileName;
 
-	currentText = nextText;
+    currentText = nextText;
 
-	QMutexLocker locker(lock);
+    QMutexLocker locker(lock);
 
-	qDebug() << "From " << logger << ", in file " << fileName << " received:";
-	qDebug() << nextText;
+    qDebug() << "From " << logger << ", in file " << fileName << " received:";
+    qDebug() << nextText;
 
 
-	qDebug() << "Waiting 5 seconds simulating writing process.";
+    qDebug() << "Waiting 5 seconds simulating writing process.";
 
-	{
-		QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "myDB");
-		db.setHostName("localhost");
-		db.setDatabaseName("nodelogger");
-		db.setUserName("kaskaderi");
-		db.setPassword("slovensko");
+    {
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "myDB");
+        db.setHostName("localhost");
+        db.setDatabaseName("nodelogger");
+        db.setUserName("kaskaderi");
+        db.setPassword("slovensko");
 
-		if (!db.open()) qDebug() << "Error connecting to database";
-		else
-		{
-			QSqlQuery query(db);
-			query.prepare("INSERT INTO data (fromNode, whenCame, inFileOfNode, text) "
-						  "VALUES (:fromNode, :whenCame, :inFileOfNode, :text)");
-			
-			std::time_t epoch = std::time(NULL);
-			char actualTime[100];
-			std::strftime(actualTime, sizeof(actualTime), "%Y-%m-%d %H:%M:%S", std::localtime(&epoch));
-			
-			query.bindValue(":fromNode", logger);
-			query.bindValue(":whenCame", actualTime);
-			query.bindValue(":inFileOfNode", fileName);
-			query.bindValue(":text", nextText);
-			query.exec();
+        if (!db.open()) qDebug() << "Error connecting to database";
+        else
+        {
+            QSqlQuery query(db);
+            query.prepare("INSERT INTO data (fromNode, whenCame, inFileOfNode, text) "
+                          "VALUES (:fromNode, :whenCame, :inFileOfNode, :text)");
 
-			db.close();
-		}
-	}
+            std::time_t epoch = std::time(NULL);
+            char actualTime[100];
+            std::strftime(actualTime, sizeof (actualTime), "%Y-%m-%d %H:%M:%S", std::localtime(&epoch));
 
-	QSqlDatabase::removeDatabase("myDB");
+            query.bindValue(":fromNode", logger);
+            query.bindValue(":whenCame", actualTime);
+            query.bindValue(":inFileOfNode", fileName);
+            query.bindValue(":text", nextText);
+            query.exec();
 
-	//	std::this_thread::sleep_for(std::chrono::seconds(5));
+            db.close();
+        }
+    }
 
-	//	emit send2MainThread(logger, fileName, currentText);
+    QSqlDatabase::removeDatabase("myDB");
 
-	qDebug() << "Writing done!";
+    //	std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    //	emit send2MainThread(logger, fileName, currentText);
+
+    qDebug() << "Writing done!";
 }

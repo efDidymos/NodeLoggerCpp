@@ -8,8 +8,8 @@ CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += debug 
 PKGCONFIG +=
 QT = core gui widgets network sql
-SOURCES += Context.cpp Server.cpp Thread.cpp main.cpp
-HEADERS += Context.h Server.h Thread.h
+SOURCES += Initialize.cpp Server.cpp Thread.cpp main.cpp
+HEADERS += Initialize.h Server.h Thread.h
 FORMS +=
 RESOURCES +=
 TRANSLATIONS +=
@@ -17,14 +17,12 @@ OBJECTS_DIR = build/Debug/CLang/LLVM-Linux
 MOC_DIR = 
 RCC_DIR = 
 UI_DIR = 
-QMAKE_CC = clang-3.7
-QMAKE_CXX = clang++-3.7
+QMAKE_CC = clang
+QMAKE_CXX = clang++
 DEFINES += DEBUG 
 INCLUDEPATH += . 
 LIBS += `cppunit-config --libs`  
 equals(QT_MAJOR_VERSION, 4) {
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 }
-equals(QT_MAJOR_VERSION, 5) {
-CONFIG += c++11
-}
+CONFIG += c++14

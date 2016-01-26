@@ -6,26 +6,26 @@
  */
 
 #ifndef CONTEXT_H
-#define	CONTEXT_H
+#define CONTEXT_H
 
 #include <QObject>
 #include "Server.h"
 
-class Context : public QObject
+class Initialize : public QObject
 {
     Q_OBJECT
-    
+
 public:
-    Context(const char * pathToFile, QObject *parent = 0);
-    Context(const Context& orig);
-    virtual ~Context();
+    Initialize(const char * pathToFile, QObject *parent = 0);
+    Initialize(const Initialize& orig);
+    virtual ~Initialize();
 
     void readJson(const char * pathToFile);
-    
+
 private:
     Server server;
     qint16 port;
 };
 
-#endif	/* CONTEXT_H */
+#endif /* CONTEXT_H */
 

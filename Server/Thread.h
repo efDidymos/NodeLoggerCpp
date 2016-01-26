@@ -6,7 +6,7 @@
  */
 
 #ifndef THREAD_H
-#define	THREAD_H
+#define THREAD_H
 
 #include <QThread>
 #include <QTcpSocket>
@@ -22,7 +22,7 @@ public:
     virtual ~Thread();
 
 signals:
-//    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
+    //    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
     void error(QTcpSocket::SocketError socketError);
 
 public slots:
@@ -33,10 +33,10 @@ private:
     QTcpSocket *tcpSocket;
     QMutex *lock;
     quint16 blockSize;
-    
+
     QString currentText;
     QString logger;
 };
 
-#endif	/* THREAD_H */
+#endif /* THREAD_H */
 

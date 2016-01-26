@@ -6,7 +6,7 @@
  */
 
 #ifndef LISTENER_H
-#define	LISTENER_H
+#define LISTENER_H
 
 #include <QTcpServer>
 #include <QMutex>
@@ -20,14 +20,14 @@ public:
     Server(const Server& orig);
     virtual ~Server();
 
-/*
-signals:
-    void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
+    /*
+    signals:
+        void send2MainThread(const QString & logger, const QString & fileName, const QString & text);
     
-public slots:
-    void write2db(const QString & logger, const QString & fileName, const QString & text);
-*/
-    
+    public slots:
+        void write2db(const QString & logger, const QString & fileName, const QString & text);
+     */
+
 protected:
     void incomingConnection(qintptr socketDescriptor) Q_DECL_OVERRIDE;
 
@@ -35,5 +35,5 @@ private:
     QMutex dbLock;
 };
 
-#endif	/* LISTENER_H */
+#endif /* LISTENER_H */
 
