@@ -3,6 +3,7 @@ The command line applications that monitor log files for changes. If the client 
 
 Used technologies: C++ STL QT 5.5 SQL
 
+![alt tag](https://raw.githubusercontent.com/efDidymos/NodeLoggerCpp/master/Deployment%20Model.png)
 ---
 
 #Usage
