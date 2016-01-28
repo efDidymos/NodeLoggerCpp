@@ -7,13 +7,13 @@ Used technologies: C++ STL QT 5.5 SQL
 ---
 
 #Usage
-  To start server
+  To start server (after compilation from NetBeans):
 
-    ./Server/dist/Debug/<Your_Used_Compiler>/Server <config_file>
+    ./CLI-version/Server/dist/Debug/<Your_Used_Compiler>/Server <config_file>
     
-  or client
+  or client:
     
-    ./Client/dist/Debug/<Your_Used_Compiler>/Client <config_file>
+    ./CLI-version/Client/dist/Debug/<Your_Used_Compiler>/Client <config_file>
     
 ##Legend  
   \<Your_Used_Compiler>  - CLang, GNU-Linux, ...
