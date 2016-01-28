@@ -60,6 +60,8 @@ Thread::~Thread()
 #endif
     if (tcpSocket) delete tcpSocket;
     tcpSocket = NULL;
+    if (lock) delete lock;
+    lock = NULL;
 }
 
 void Thread::read()
