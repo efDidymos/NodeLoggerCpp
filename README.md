@@ -9,11 +9,11 @@ Used technologies: C++ STL QT 5.5 SQL
 #Usage
   To start server
 
-    ./Server/dist/Debug/<Your_Used_Compiler>/Server <config_file>
+    ./CLI-version/Server/dist/Debug/<Your_Used_Compiler>/Server <config_file>
     
   or client
     
-    ./Client/dist/Debug/<Your_Used_Compiler>/Client <config_file>
+    ./CLI-version/Client/dist/Debug/<Your_Used_Compiler>/Client <config_file>
     
 ##Legend  
   \<Your_Used_Compiler>  - CLang, GNU-Linux, ...
