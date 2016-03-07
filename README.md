@@ -5,6 +5,9 @@ Used technologies: C++ STL QT 5.5 SQL
 
 ![alt tag](https://raw.githubusercontent.com/efDidymos/NodeLoggerCpp/master/Deployment%20Model.png)
 ---
+# TODO
+
+!I have to update the usage!
 
 #Usage
   To start server (after compilation from NetBeans):
