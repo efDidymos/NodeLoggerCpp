@@ -16,8 +16,8 @@ class Initialize : public QObject
     Q_OBJECT
 
 public:
-    Initialize(const char * pathToFile, QObject *parent = 0);
-    Initialize(const Initialize& orig);
+    Initialize(const char * pathToFile);
+    Initialize(const Initialize& orig) = delete;
     virtual ~Initialize();
 
     void readJson(const char * pathToFile);

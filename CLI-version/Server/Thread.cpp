@@ -6,16 +6,10 @@
  */
 
 #include "Thread.h"
-#include <QObject>
 #include <QTimer>
 #include <thread>
-
 #include <QSqlDatabase>
 #include <QSqlQuery>
-
-#include <ctime>
-
-#include <QDebug>
 #include <QDataStream>
 
 Thread::Thread(int socketDescriptor, QMutex *lock, QObject *parent) :
@@ -42,15 +36,10 @@ lock(lock)
 #ifdef DEBUG
         qDebug() << "Server is running";
 #endif
-
         blockSize = 0;
         QObject::connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
         QObject::connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(read()));
     }
-}
-
-Thread::Thread(const Thread& orig)
-{
 }
 
 Thread::~Thread()
@@ -59,9 +48,9 @@ Thread::~Thread()
     qDebug() << "Destructor thread";
 #endif
     if (tcpSocket) delete tcpSocket;
-    tcpSocket = NULL;
+    tcpSocket = nullptr;
     if (lock) delete lock;
-    lock = NULL;
+    lock = nullptr;
 }
 
 void Thread::read()
@@ -89,7 +78,7 @@ void Thread::read()
 
     currentText = nextText;
 
-    QMutexLocker locker(lock);
+//    QMutexLocker locker(lock);
 
     qDebug() << "From " << logger << ", in file " << fileName << " received:";
     qDebug() << nextText;

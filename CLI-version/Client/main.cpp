@@ -10,16 +10,11 @@
 #include <csignal>
 #include "watcher.h"
 
-watcher * myWatcher;
-
 static void cleanup(int sig)
 {
 #ifdef DEBUG
     qDebug() << "Caught CTRL+C signal, Bye :)";
 #endif
-
-    if (myWatcher) delete myWatcher;
-    myWatcher = NULL;
     if (sig == SIGINT) qApp->quit();
 }
 
@@ -33,10 +28,9 @@ int main(int argc, char *argv[])
 
     if (QFile::exists(argv[1]))
     {
-        myWatcher = new watcher(argv[1]);
+        watcher w(argv[1]);
 
         // create and show your widgets here
-
         return app.exec();
     }
     else

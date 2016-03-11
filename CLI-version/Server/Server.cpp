@@ -15,10 +15,6 @@ Server::Server(QObject *parent) : QTcpServer(parent)
 #endif
 }
 
-Server::Server(const Server& orig)
-{
-}
-
 Server::~Server()
 {
 #ifdef DEBUG
@@ -29,7 +25,7 @@ Server::~Server()
 void Server::incomingConnection(qintptr socketDescriptor)
 {
     Thread *thread = new Thread(socketDescriptor, &dbLock, this);
-    QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     //	QObject::connect(thread, SIGNAL(send2MainThread(const QString &, const QString &, const QString &)), this, SLOT(write2db(const QString &, const QString &, const QString &)));
     thread->start();
 }

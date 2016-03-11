@@ -26,7 +26,7 @@ class watcher : public QObject
 
 public:
     watcher(const char * pathToFile);
-    watcher(const watcher& orig);
+    watcher(const watcher& orig) = delete;  // explicitly deleted
     virtual ~watcher();
 
     void readJson(const char * pathToFile);
@@ -47,9 +47,9 @@ private:
     QFileSystemWatcher *watchList;
 
     QTcpSocket *tcpSocket;
-    quint16 blockSize;
+//    quint16 blockSize;
 
-    QNetworkSession *networkSession;
+//    QNetworkSession *networkSession;
 };
 
 #endif /* WATCHER_H */

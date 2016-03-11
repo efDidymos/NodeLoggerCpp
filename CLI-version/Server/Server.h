@@ -17,7 +17,7 @@ class Server : public QTcpServer
 
 public:
     Server(QObject *parent = 0);
-    Server(const Server& orig);
+    Server(const Server& orig) = delete;
     virtual ~Server();
 
     /*
@@ -29,7 +29,8 @@ public:
      */
 
 protected:
-    void incomingConnection(qintptr socketDescriptor) Q_DECL_OVERRIDE;
+    void incomingConnection(qintptr socketDescriptor) override;
+
 
 private:
     QMutex dbLock;

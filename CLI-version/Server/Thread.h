@@ -18,7 +18,7 @@ class Thread : public QThread
 
 public:
     Thread(int socketDescriptor, QMutex *lock, QObject *parent);
-    Thread(const Thread& orig);
+    Thread(const Thread& orig) = delete;
     virtual ~Thread();
 
 signals:

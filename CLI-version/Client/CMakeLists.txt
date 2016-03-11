@@ -7,6 +7,8 @@ set(CMAKE_AUTOMOC ON)   # Allowing using MOC from Qt framework before compile
 
 set(CMAKE_PREFIX_PATH "~/Qt/5.5/gcc_64")    # Path to download external Qt framework
 
+#add_definitions(-DDEBUG)   # Macro
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 set(SOURCE_FILES

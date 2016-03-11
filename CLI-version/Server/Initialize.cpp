@@ -6,14 +6,9 @@
  */
 
 #include <QtNetwork>
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
 #include "Initialize.h"
-#include <stdexcept>
 
-Initialize::Initialize(const char * pathToFile, QObject *parent)
+Initialize::Initialize(const char * pathToFile)
 {
     readJson(pathToFile);
 
@@ -47,9 +42,6 @@ Initialize::Initialize(const char * pathToFile, QObject *parent)
     qDebug() << "\n\nRun the Client now.";
 }
 
-Initialize::Initialize(const Initialize& orig)
-{
-}
 
 Initialize::~Initialize()
 {

@@ -9,6 +9,8 @@ set(CMAKE_AUTOMOC ON)
 # Path to download external Qt framework
 set(CMAKE_PREFIX_PATH "~/Qt/5.5/gcc_64")
 
+#add_definitions(-DDEBUG)   # Macro
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 set(SOURCE_FILES
@@ -17,7 +19,6 @@ set(SOURCE_FILES
     main.cpp
     Server.cpp
     Server.h
-    serverOptions.cfg
     Thread.cpp
     Thread.h)
 

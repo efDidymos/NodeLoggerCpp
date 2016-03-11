@@ -8,20 +8,13 @@
 #include "watcher.h"
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonValue>
 #include <QJsonArray>
-#include <QJsonParseError>
 #include <QFile>
-#include <QDebug>
 #include <QDataStream>
 
 watcher::watcher(const char * pathToFile)
 {
     readJson(pathToFile);
-}
-
-watcher::watcher(const watcher& orig)
-{
 }
 
 watcher::~watcher()
@@ -31,13 +24,13 @@ watcher::~watcher()
 #endif
 
     if (watchList) delete watchList;
-    watchList = NULL;
+    watchList = nullptr;
 
     if (tcpSocket) delete tcpSocket;
-    tcpSocket = NULL;
+    tcpSocket = nullptr;
 
-    if (networkSession) delete networkSession;
-    networkSession = NULL;
+//    if (networkSession) delete networkSession;
+//    networkSession = nullptr;
 }
 
 void watcher::readJson(const char * pathToFile)
@@ -111,17 +104,23 @@ void watcher::watch()
 {
     watchList = new QFileSystemWatcher(map.keys());
 
-    QObject::connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
+    connect(watchList, SIGNAL(fileChanged(const QString &)), this, SLOT(showModified(const QString &)));
 
-    networkSession = NULL;
+    // Alternative C++11 new style of connect
+//    connect(watchList, &QFileSystemWatcher::fileChanged,
+//            [this](const QString &asd) {
+//                watcher::showModified(asd);
+//            }
+//    );
+
+//    networkSession = nullptr;
     tcpSocket = new QTcpSocket(this);
-
-    QObject::connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
 void watcher::sendToServer(const QString& fileName, const QString& text) const
 {
-
+/*
     struct Packet
     {
         QString id;
@@ -129,6 +128,7 @@ void watcher::sendToServer(const QString& fileName, const QString& text) const
     };
 
     Packet packet = {idWatcher, text};
+*/
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
